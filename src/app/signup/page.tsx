@@ -3,7 +3,7 @@ import SignUpForm from "@/components/forms/signup-form";
 import { Check } from "lucide-react";
 import Image from "next/image";
 
-export default function LoginPage() {
+export default function SignUpPage() {
 	return (
 		<Container className="mt-[55px] mb-[75px] md:max-h-screen md:mt-28 text-start flex flex-col md:flex-row justify-center items-center md:items-start gap-x-5 lg:gap-x-24">
 			<div className="max-w-[300px] w-full">
@@ -49,7 +49,7 @@ export default function LoginPage() {
 					</li>
 				</ul>
 			</div>
-			<div className="max-w-[400px] w-full">
+			<div className="max-w-[400px] w-full mt-[52px] md:mt-0">
 				<SignUpForm />
 				<div className="p-2.5 mt-2.5 text-center">
 					<p className="text-[11px]">

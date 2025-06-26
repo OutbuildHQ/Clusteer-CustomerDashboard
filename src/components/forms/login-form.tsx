@@ -18,19 +18,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
-const signupFormSchema = z.object({
-	name: z.string(),
+const LoginFormSchema = z.object({
 	email: z.string().email(),
 	password: z.string(),
 });
 
-type SignupFormType = z.infer<typeof signupFormSchema>;
+type LoginFormType = z.infer<typeof LoginFormSchema>;
 
-export default function SignUpForm() {
-	const form = useForm<SignupFormType>({
-		resolver: zodResolver(signupFormSchema),
+export default function LoginForm() {
+	const form = useForm<LoginFormType>({
+		resolver: zodResolver(LoginFormSchema),
 		defaultValues: {
-			name: "",
 			email: "",
 			password: "",
 		},
@@ -54,7 +52,7 @@ export default function SignUpForm() {
 						width={24}
 						height={24}
 					/>
-					<span className="text-base text-semibold">Sign up with Google</span>
+					<span className="text-base text-semibold">Sign in with Google</span>
 				</Link>
 			</Button>
 			<Form {...form}>
@@ -62,23 +60,6 @@ export default function SignUpForm() {
 					onSubmit={form.handleSubmit(onSubmit)}
 					className="flex flex-col gap-y-5 w-full"
 				>
-					<FormField
-						control={form.control}
-						name="name"
-						render={({ field }) => (
-							<FormItem className="gap-1.5">
-								<FormLabel className="font-medium">Name</FormLabel>
-								<FormControl>
-									<Input
-										className="focus-visible:ring-0 h-[44px]"
-										placeholder="Enter your name"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
 					<FormField
 						control={form.control}
 						name="email"
@@ -123,9 +104,11 @@ export default function SignUpForm() {
 						Sign up
 					</Button>
 					<div className="text-center mt-3">
-						Already have an account?
-						<Link href="/login">
-							<span className="text-dark-green font-semibold ml-1">Log in</span>
+						Don’t have an account?
+						<Link href="/signup">
+							<span className="text-dark-green font-semibold ml-1">
+								Sign up
+							</span>
 							<ChevronRight className="inline-block size-5 stroke-dark-green ml-2" />
 						</Link>
 					</div>

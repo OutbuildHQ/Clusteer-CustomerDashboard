@@ -70,7 +70,7 @@ export default function SignUpForm() {
 								<FormLabel className="font-medium">Name</FormLabel>
 								<FormControl>
 									<Input
-										className="focus-visible:ring-0 h-[44px]"
+										className="h-[44px]"
 										placeholder="Enter your name"
 										{...field}
 									/>
@@ -87,7 +87,7 @@ export default function SignUpForm() {
 								<FormLabel className="font-medium">Email</FormLabel>
 								<FormControl>
 									<Input
-										className="focus-visible:ring-0 h-[44px]"
+										className="h-[44px]"
 										placeholder="Enter your email"
 										{...field}
 									/>
@@ -104,7 +104,7 @@ export default function SignUpForm() {
 								<FormLabel className="font-medium">Password</FormLabel>
 								<FormControl>
 									<Input
-										className="focus-visible:ring-0 h-[44px]"
+										className="h-[44px]"
 										placeholder="Create a Password"
 										{...field}
 									/>

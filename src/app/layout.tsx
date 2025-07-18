@@ -27,7 +27,7 @@ const avenirNext = localFont({
 	display: "swap",
 	src: [
 		{
-			path: "./../fonts/avenir-next/AvenirNext-UltraLight-11.ttf",
+			path: "./../fonts/avenir-next/AvenirNext-Regular-08.ttf",
 			weight: "200",
 			style: "normal",
 		},

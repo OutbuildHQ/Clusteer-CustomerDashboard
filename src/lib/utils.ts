@@ -1,6 +1,21 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+	return twMerge(clsx(inputs));
+}
+
+export function parseNumber(str: string): number | null {
+	const cleaned = str.replace(/,/g, "");
+	const num = parseFloat(cleaned);
+	return isNaN(num) ? null : num;
+}
+
+export function formatNumber(num: number = 0, allowDec: boolean): string {
+	if (isNaN(num)) return "";
+	let formatted = allowDec ? num.toString() : Math.floor(num).toString();
+	const parts = formatted.split(".");
+	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	formatted = parts.join(".");
+	return formatted;
 }

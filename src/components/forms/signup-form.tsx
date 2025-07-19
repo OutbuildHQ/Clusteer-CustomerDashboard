@@ -46,7 +46,7 @@ export default function SignUpForm() {
 			>
 				<Link
 					href="#"
-					className="flex font-mona items-center gap-x-3 py-2.5 w-full h-[44px] google-login-border"
+					className="flex font-mona items-center gap-x-3 py-2.5 w-full h-11 google-login-border"
 				>
 					<Image
 						src="/assets/icons/google.svg"
@@ -70,7 +70,7 @@ export default function SignUpForm() {
 								<FormLabel className="font-medium">Name</FormLabel>
 								<FormControl>
 									<Input
-										className="h-[44px]"
+										className="h-11"
 										placeholder="Enter your name"
 										{...field}
 									/>
@@ -87,7 +87,7 @@ export default function SignUpForm() {
 								<FormLabel className="font-medium">Email</FormLabel>
 								<FormControl>
 									<Input
-										className="h-[44px]"
+										className="h-11"
 										placeholder="Enter your email"
 										{...field}
 									/>
@@ -104,7 +104,7 @@ export default function SignUpForm() {
 								<FormLabel className="font-medium">Password</FormLabel>
 								<FormControl>
 									<Input
-										className="h-[44px]"
+										className="h-11"
 										placeholder="Create a Password"
 										{...field}
 									/>

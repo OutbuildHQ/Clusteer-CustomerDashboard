@@ -18,7 +18,7 @@ interface ModalStore {
 }
 
 const useModalStore = create<ModalStore>((set, get) => ({
-	currentModal: MODAL_IDS.SUCCESS,
+	currentModal: null,
 	actions: {
 		openModal: (modal) => {
 			get().actions.closeModal();

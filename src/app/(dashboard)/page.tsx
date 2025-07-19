@@ -19,7 +19,7 @@ export default function Page() {
 					services."
 				link="#"
 			/>
-			<div className="mt-5 lg:mt-20">
+			<section className="mt-5 lg:mt-20">
 				<header>
 					<div className="items-center gap-x-1.5 p-2.5 mb-1.5 hidden lg:flex">
 						<div className="flex items-center gap-x-1.5">
@@ -78,13 +78,13 @@ export default function Page() {
 						</div>
 					))}
 				</div>
-			</div>
-			<div className="mt-14.5">
+			</section>
+			<section className="mt-14.5">
 				<BuySellCrypto />
-			</div>
-			<div className="mt-11 hidden lg:block">
+			</section>
+			<section className="mt-11 hidden lg:block">
 				<TransactionsTable />
-			</div>
+			</section>
 		</div>
 	);
 }

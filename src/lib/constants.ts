@@ -6,3 +6,13 @@ export const STABLE_COIN_RATES = {
 	SOL: 1600,
 	BTC: 2000,
 } as const;
+
+export const MAX_IMAGE_SIZE = 3000;
+
+export const ALLOWED_IMAGE_FILES = [
+	"image/png",
+	"image/jpeg",
+	"image/jpg",
+	"image/svg+xml",
+	"image/gif",
+];

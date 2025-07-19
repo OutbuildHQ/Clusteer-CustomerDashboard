@@ -9,7 +9,7 @@ import Image from "next/image";
 
 export default function Page() {
 	return (
-		<div className="font-avenir-next">
+		<div className="font-avenir-next pb-6 lg:pt-[50px]">
 			<Banner
 				title="Complete your Verification to proceed"
 				description="Your security and trust are paramount to us, which is why we’ve

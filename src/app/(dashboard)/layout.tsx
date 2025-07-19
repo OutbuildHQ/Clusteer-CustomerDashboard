@@ -8,9 +8,7 @@ export default function DashboardLayout({
 	return (
 		<div className="pt-2 px-4 h-full min-h-screen bg-[#FAFAFA] lg:grid lg:grid-cols-[250px_auto] xl:grid-cols-[292px_auto] gap-x-11 xl:gap-[58px] lg:pr-3">
 			<DashboardNav />
-			<div className="lg:max-w-[953px] xl:max-w-[1024px] lg:pt-[50px] pb-6">
-				{children}
-			</div>
+			<div className="lg:max-w-[953px] xl:max-w-[1024px]">{children}</div>
 		</div>
 	);
 }

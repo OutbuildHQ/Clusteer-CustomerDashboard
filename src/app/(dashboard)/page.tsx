@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CURRENCIES } from "@/lib/data";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Page() {
 	return (
@@ -57,9 +58,10 @@ export default function Page() {
 				</header>
 				<div className="mt-5 lg:mt-6.5 flex flex-wrap gap-[27px] lg:gap-8 xl:gap-14 pb-14.5">
 					{CURRENCIES.map((item) => (
-						<div
+						<Link
 							key={item.currency}
-							className="px-4 py-2.5 rounded-[20px] sm:max-w-[280px] w-full h-[145px] lg:h-[215px] bg-[#F2F2F0] flex flex-col shrink-0"
+							href={`assets/${item.currency}`}
+							className="shrink-0 w-full px-4 py-2.5 rounded-[20px] sm:max-w-[280px] h-[145px] lg:h-[215px] bg-[#F2F2F0] flex flex-col"
 						>
 							<div className="flex items-center mb-[17px]">
 								<Image
@@ -75,7 +77,7 @@ export default function Page() {
 							<span className="mt-auto font-bold text-2xl py-2.5">
 								{item.rate.toPrecision(3)}
 							</span>
-						</div>
+						</Link>
 					))}
 				</div>
 			</section>

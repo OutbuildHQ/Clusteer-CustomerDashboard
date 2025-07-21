@@ -5,3 +5,5 @@ export const CURRENCIES: ICurrency[] = [
 	{ currency: "USDC", icon: "/assets/images/usdc.svg", rate: 2 },
 	// { currency: "naira", icon: "/assets/images/naira.svg", rate: 1.0 },
 ];
+
+export const NETWORKS = [{ name: "Solana" }, { name: "Bitcoin" }];

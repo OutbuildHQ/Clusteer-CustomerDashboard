@@ -20,7 +20,7 @@ export default async function Page({
 		<section className="mt-5 lg:mt-10">
 			<header className="flex flex-col md:flex-row pb-5 lg:pb-14 border-b border-[#C4C4C4]">
 				<div className="flex flex-col lg:flex-col-reverse gap-y-4">
-					<span className="text-5xl font-bold">
+					<span className="text-5xl font-bold capitalize">
 						{`${asset?.rate}  ${asset?.currency}`}
 					</span>
 					<div className="flex items-center">
@@ -37,7 +37,7 @@ export default async function Page({
 				</div>
 				<div className="md:ml-auto mt-7.5 md:mt-0 flex gap-x-[53px]">
 					<Link
-						href="/assets/USDT/receive"
+						href={`/assets/${assetName}/receive`}
 						className="inline-block"
 					>
 						<div className="flex items-center justify-center bg-light-green size-16 rounded-full mx-auto mb-4">

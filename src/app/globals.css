@@ -12,7 +12,7 @@
 
 	--light-green: hsl(78, 100%, 48%);
 
-	--dark-green: hsl(120, 100%, 25%);
+	--dark-green: oklch(51.976% 0.17685 142.511);
 
 	--radius: 0.625rem;
 

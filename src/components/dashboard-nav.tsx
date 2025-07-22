@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 const NAVLINKS = [
-	{ title: "home", icon: "/assets/icons/home.svg", to: "#" },
-	{ title: "security", icon: "/assets/icons/chart.svg", to: "#" },
+	{ title: "home", icon: "/assets/icons/home.svg", to: "/" },
+	{ title: "security", icon: "/assets/icons/chart.svg", to: "/security" },
 	{
 		title: "identity verficication",
 		icon: "/assets/icons/identity_verification.svg",

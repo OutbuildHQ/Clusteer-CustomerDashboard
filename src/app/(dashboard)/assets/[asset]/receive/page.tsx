@@ -10,11 +10,18 @@ import { NETWORKS } from "@/lib/data";
 import { Copy, Dot } from "lucide-react";
 import Image from "next/image";
 
-export default function Page() {
+//TODO: Edge Case => When an Unknown [asset] is passed. Redirect back to /assets
+
+export default async function Page({
+	params,
+}: {
+	params: Promise<{ asset: string }>;
+}) {
+	const { asset } = await params;
 	return (
 		<section className="mt-8.5 lg:mt-10">
 			<header>
-				<h1 className="font-bold text-3xl">Receive USDT</h1>
+				<h1 className="font-bold text-3xl capitalize">Receive {asset}</h1>
 			</header>
 			<div className="flex flex-col xl:flex-row xl:gap-x-[60px]">
 				<div>

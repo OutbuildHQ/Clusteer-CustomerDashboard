@@ -112,7 +112,7 @@ export default function UpdateProfileForm() {
 							<FormControl>
 								<div className="flex w-full lg:max-w-[512px] gap-x-2 items-center h-11 py-2.5 px-3.5 border border-[#D5D7DA] rounded-full text-[#181D27] shadow-[0px_1px_2px_0px_#0A0D120D] overflow-hidden">
 									<Image
-										src="/assets/icons/phone.svg"
+										src="/assets/icons/phone-call.svg"
 										alt="phone icon"
 										width={20}
 										height={20}

@@ -1,4 +1,4 @@
-export type ICrypto = "USDT" | "USDC";
+export type ICrypto = "USDT" | "USDC" | "naira";
 
 export interface ICurrency {
 	currency: ICrypto;

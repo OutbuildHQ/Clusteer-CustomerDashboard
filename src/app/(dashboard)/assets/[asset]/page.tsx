@@ -2,7 +2,6 @@ import { CURRENCIES } from "@/lib/data";
 import { ArrowUp, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export default async function Page({
 	params,
@@ -10,11 +9,7 @@ export default async function Page({
 	params: Promise<{ asset: string }>;
 }) {
 	const { asset: assetName } = await params;
-	const asset = CURRENCIES.find((c) => c.currency === assetName);
-
-	if (!asset) {
-		return redirect("/");
-	}
+	const asset = CURRENCIES.find((c) => c.currency === assetName)!;
 
 	return (
 		<section className="mt-5 lg:mt-10">

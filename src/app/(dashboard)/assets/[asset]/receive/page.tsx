@@ -17,11 +17,12 @@ export default async function Page({
 }: {
 	params: Promise<{ asset: string }>;
 }) {
-	const { asset } = await params;
+	const { asset: assetName } = await params;
+
 	return (
 		<section className="mt-8.5 lg:mt-10">
 			<header>
-				<h1 className="font-bold text-3xl capitalize">Receive {asset}</h1>
+				<h1 className="font-bold text-3xl capitalize">Receive {assetName}</h1>
 			</header>
 			<div className="flex flex-col xl:flex-row xl:gap-x-[60px]">
 				<div>

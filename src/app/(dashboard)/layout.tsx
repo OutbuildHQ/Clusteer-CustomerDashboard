@@ -7,7 +7,7 @@ export default function DashboardLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<div className="px-4 h-full min-h-screen bg-[#FAFAFA] lg:grid lg:grid-cols-[250px_auto] xl:grid-cols-[292px_auto] gap-x-11 xl:gap-[58px] lg:pr-4">
+		<div className="relative px-4 h-full min-h-screen bg-[#FAFAFA] lg:grid lg:grid-cols-[250px_auto] xl:grid-cols-[292px_auto] gap-x-11 xl:gap-14.5 lg:pr-4">
 			<div className="pt-2">
 				<DashboardNav />
 			</div>

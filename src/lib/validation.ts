@@ -6,6 +6,12 @@ import {
 	MINIMUM_VALUE,
 } from "./constants";
 
+export const LoginFormSchema = z.object({
+	email: z.string().email(),
+	password: z.string(),
+});
+
+
 export const BuyCryptoSchema = z.object({
 	pay: z
 		.number()
@@ -53,4 +59,8 @@ export const UpdateProfileFormSchema = z.object({
 	email: z.string().email(),
 	profileImage: IMAGE_SCHEMA,
 	phoneNo: z.string(),
+});
+
+export const IdentityVerficationFormSchema = z.object({
+	residency: z.string(),
 });

@@ -8,9 +8,9 @@
 
 	--custom-black: #21241d;
 
-	--button-background: hsl(76, 96%, 91%);
+	--pale-green: oklch(97.697% 0.05845 119.942);
 
-	--light-green: hsl(78, 100%, 48%);
+	--light-green: oklch(88.759% 0.23335 128.416);
 
 	--dark-green: oklch(51.976% 0.17685 142.511);
 
@@ -84,7 +84,7 @@
 	--color-foreground: var(--foreground);
 	--color-black: var(--custom-black);
 	--color-real-black: var(--real-black);
-	--color-button: var(--button-background);
+	--color-pale-green: var(--pale-green);
 	--color-light-green: var(--light-green);
 	--color-dark-green: var(--dark-green);
 	--font-mona: var(--font-mona);

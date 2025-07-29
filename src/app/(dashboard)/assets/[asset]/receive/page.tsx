@@ -6,11 +6,17 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { NETWORKS } from "@/lib/data";
+import { CURRENCIES, NETWORKS } from "@/lib/data";
 import { Copy, Dot } from "lucide-react";
 import Image from "next/image";
 
-//TODO: Edge Case => When an Unknown [asset] is passed. Redirect back to /assets
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+	return CURRENCIES.map((c) => ({
+		asset: c.currency,
+	}));
+}
 
 export default async function Page({
 	params,

@@ -18,3 +18,8 @@ export interface ITransaction {
 	status: "completed" | "pending" | "failed";
 	actionText?: string;
 }
+
+export interface IResponse {
+	status: boolean;
+	message: string;
+}

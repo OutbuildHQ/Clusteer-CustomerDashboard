@@ -1,6 +1,14 @@
 "use client";
 
-import { FieldValues, useForm } from "react-hook-form";
+import { loginUser } from "@/lib/api/auth";
+import { LoginFormSchema } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { ChevronRight, Loader2 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { Button } from "../ui/button";
 import {
 	Form,
@@ -12,18 +20,9 @@ import {
 	FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import Image from "next/image";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronRight } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-const LoginFormSchema = z.object({
-	email: z.string().email(),
-	password: z.string(),
-});
-
-type LoginFormType = z.infer<typeof LoginFormSchema>;
+export type LoginFormType = z.infer<typeof LoginFormSchema>;
 
 export default function LoginForm() {
 	const form = useForm<LoginFormType>({
@@ -34,7 +33,16 @@ export default function LoginForm() {
 		},
 	});
 
-	const onSubmit = (values: FieldValues) => console.log(values);
+	const router = useRouter();
+
+	const { isPending, mutate } = useMutation({
+		mutationFn: loginUser,
+		onSuccess: () => router.push("/"),
+	});
+
+	const onSubmit = (data: LoginFormType) => {
+		mutate(data);
+	};
 
 	return (
 		<div className="p-5 form-border space-y-5 rounded-2xl w-full">
@@ -101,7 +109,14 @@ export default function LoginForm() {
 						type="submit"
 						className="mt-1 font-mona border-black text-[#111111] bg-light-green border font-semibold text-base shadow-xs hover:bg-muted"
 					>
-						Sign up
+						{isPending ? (
+							<>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+								Logging In...
+							</>
+						) : (
+							<>Login</>
+						)}
 					</Button>
 					<div className="text-center mt-3">
 						Don’t have an account?

@@ -36,7 +36,7 @@ export default function Page() {
 						</div>
 						<Badge
 							variant="secondary"
-							className="bg-button text-dark-green h-6 rounded-[100px]"
+							className="bg-pale-green text-dark-green h-6 rounded-[100px]"
 						>
 							<Image
 								src="/assets/icons/check_small.svg"

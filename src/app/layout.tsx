@@ -3,6 +3,7 @@ import { Inter, Lexend, Mona_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import NavBar from "@/components/nav-bar";
+import ReactQueryClientProvider from "@/providers/ReactQueryClientProvider";
 
 const lexend = Lexend({
 	variable: "--font-lexend",
@@ -74,7 +75,7 @@ export default function RootLayout({
 				className={`${lexend.variable} ${monaSans.variable} ${inter.variable} ${avenirNext.variable} antialiased`}
 			>
 				<NavBar />
-				{children}
+				<ReactQueryClientProvider>{children}</ReactQueryClientProvider>
 			</body>
 		</html>
 	);

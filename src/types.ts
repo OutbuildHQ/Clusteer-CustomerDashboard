@@ -7,19 +7,63 @@ export interface ICurrency {
 }
 
 export interface ITransaction {
-	type: "buy" | "sell";
-	time: string;
-	amountPaid: number;
-	price: number;
-	crypto: ICrypto;
+	id: number;
+	user: number;
+	username: string;
+	type: string;
+	title: string;
+	ref: string;
+	orderNumber: string;
+	chain: string | null;
+	currency: string;
 	amount: number;
-	fee: number;
-	orderNo: string;
-	status: "completed" | "pending" | "failed";
-	actionText?: string;
+	rate: number;
+	info: string;
+	flow: string;
+	description: string;
+	status: string;
+	dateCreated: string;
 }
 
-export interface IResponse {
+export interface IResponse<T> {
 	status: boolean;
 	message: string;
+	data: T;
+}
+
+export interface IUser {
+	id: number;
+	username: string;
+	firstName: string;
+	lastName: string;
+	email: string;
+	dob: string;
+	gender: string;
+	phone: string;
+	avatar: string;
+	occupation: string;
+	emailVerified: boolean;
+	kyc: {
+		id: number;
+		identity: string;
+		idType: string;
+		idNumber: string;
+		idExpiry: string;
+		status: string;
+		idVerified: boolean;
+	};
+	address: {
+		id: number;
+		country: string;
+		state: string;
+		city: string;
+		zip: string;
+		address: string;
+		status: string;
+		utility: string;
+		addressVerified: boolean;
+	};
+	dateJoined: string;
+	type: string;
+	active: boolean;
 }

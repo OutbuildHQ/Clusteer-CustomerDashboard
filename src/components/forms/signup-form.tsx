@@ -1,6 +1,11 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ChevronRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { FieldValues, useForm } from "react-hook-form";
+import { z } from "zod";
 import { Button } from "../ui/button";
 import {
 	Form,
@@ -12,11 +17,6 @@ import {
 	FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import Image from "next/image";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronRight } from "lucide-react";
-import Link from "next/link";
 
 const signupFormSchema = z.object({
 	name: z.string(),

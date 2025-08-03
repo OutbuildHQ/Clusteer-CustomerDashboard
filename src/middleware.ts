@@ -1,30 +1,29 @@
-// middleware.ts
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+
+const PUBLIC_FILE = /\.(.*)$/;
 
 export function middleware(request: NextRequest) {
 	const token = request.cookies.get("auth_token")?.value;
 	const { pathname } = request.nextUrl;
 
-	// Define routes that don't require authentication
-	const publicPaths = ["/login", "/signup"];
+	if (PUBLIC_FILE.test(pathname)) {
+		return NextResponse.next();
+	}
 
-	// If the request is for a public path, allow it
+	const publicPaths = ["/login", "/signup"];
 	if (publicPaths.includes(pathname)) {
 		return NextResponse.next();
 	}
 
-	// If the token is not present, redirect to the login page
 	if (!token) {
 		return NextResponse.redirect(new URL("/login", request.url));
 	}
 
-	// If the token is present, allow the request
 	return NextResponse.next();
 }
 
 export const config = {
 	matcher: [
-		"/((?!login|signup|api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+		"/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\..*).*)",
 	],
 };

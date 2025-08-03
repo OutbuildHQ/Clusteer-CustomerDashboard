@@ -10,8 +10,11 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { getAllTransactions } from "@/lib/api/user/queries";
+import { PAGE_SIZE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ITransaction } from "@/types";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -29,111 +32,94 @@ import * as React from "react";
 
 export const data: ITransaction[] = [
 	{
-		type: "sell",
-		time: "2025-05-01",
-		amountPaid: 17000,
-		price: 1598.5,
-		crypto: "USDT",
-		amount: 10.7,
-		fee: 0.1,
-		orderNo: "13131763...80698113",
-		status: "completed",
-		actionText: "Download receipt",
+		id: 16,
+		user: 3,
+		username: "Bjorn",
+		type: "CRYPTO",
+		title: "CRYPTO PURCHASE",
+		ref: "PUR|20250722212326|978925B36CF14ABDB538|1753219406023",
+		orderNumber: "CLSTR_P2P_P_1753219406021",
+		chain: null,
+		currency: "USDT",
+		amount: 50.5,
+		rate: 1566.7,
+		info: "",
+		flow: "CREDIT",
+		description: "Purchase complete",
+		status: "SUCCESS",
+		dateCreated: "2025-07-22 22:23:28",
 	},
 	{
-		type: "buy",
-		time: "2025-06-15",
-		amountPaid: 5000,
-		price: 2500,
-		crypto: "USDT",
-		amount: 2,
-		fee: 0.02,
-		orderNo: "13131800...12345678",
-		status: "completed",
-		actionText: "View invoice",
-	},
-	{
-		type: "sell",
-		time: "2025-07-02",
-		amountPaid: 12000,
-		price: 4000,
-		crypto: "USDT",
-		amount: 3,
-		fee: 0.03,
-		orderNo: "13131999...87654321",
-		status: "pending",
-		actionText: "Awaiting confirmation",
-	},
-	{
-		type: "buy",
-		time: "2025-07-10",
-		amountPaid: 2400,
-		price: 800,
-		crypto: "USDT",
-		amount: 3,
-		fee: 0.01,
-		orderNo: "13132050...23456789",
-		status: "failed",
+		id: 15,
+		user: 3,
+		username: "Bjorn",
+		type: "FIAT",
+		title: "CRYPTO PURCHASE",
+		ref: "CLSTR_WLTDR_1753219406261",
+		orderNumber: "CLSTR_P2P_P_1753219406021",
+		chain: null,
+		currency: "NGN",
+		amount: 79118.55,
+		rate: 1566.7,
+		info: "",
+		flow: "DEBIT",
+		description: "Payment for eth purchase.",
+		status: "SUCCESS",
+		dateCreated: "2025-07-22 22:23:26",
 	},
 ];
 
 export const columns: ColumnDef<ITransaction>[] = [
 	{
-		header: "Type/Time",
+		header: "Type / Time",
 		cell: ({ row }) => {
+			const { type, currency, dateCreated } = row.original;
 			return (
 				<div className="capitalize font-medium flex flex-col">
 					<p>
 						<span
 							className={cn({
-								"text-destructive": row.original.type === "sell",
-								"text-[#008000]": row.original.type === "buy",
+								"text-destructive": type.toLowerCase() === "sell",
+								"text-[#008000]": type.toLowerCase() === "buy",
 							})}
 						>
-							{row.original.type + " "}
+							{type + " "}
 						</span>
-						<span>{row.original.crypto}</span>
+						<span>{currency}</span>
 					</p>
-					<p className="text-[#475569]">{row.original.time}</p>
+					<p className="text-[#475569]">{dateCreated}</p>
 				</div>
 			);
 		},
 	},
 	{
-		header: "Amount paid/Price",
-		cell: ({ row }) => (
-			<div>
-				<p className="font-medium">
-					{row.original.amountPaid.toLocaleString() + " NGN"}
-				</p>
-				<p className="text-[#475467]">
-					{row.original.price.toLocaleString() + " NGN"}
-				</p>
-			</div>
-		),
-	},
-	{
-		header: "Amount/Fee",
+		header: "Amount / Rate",
 		cell: ({ row }) => {
+			const { amount, rate, currency } = row.original;
 			return (
 				<div>
 					<p className="font-medium">
-						{row.original.amount.toLocaleString() + " " + row.original.crypto}
+						{amount.toLocaleString()} {currency}
 					</p>
-					<p className="text-[#475467]">
-						{row.original.fee.toLocaleString() + " " + row.original.crypto}
-					</p>
+					<p className="text-[#475467]">{rate.toLocaleString()} NGN</p>
 				</div>
 			);
 		},
 	},
 	{
-		accessorKey: "orderNo",
-		header: "Order number",
+		header: "Title",
+		cell: ({ row }) => {
+			const { flow } = row.original;
+			return <p className="text-[#475467] font-medium">{flow}</p>;
+		},
+	},
+	{
+		accessorKey: "orderNumber",
+		header: "Order Number",
 		cell: ({ row }) => {
 			return (
-				<div className="font-medium flex items-center gap-x-1 font-inter">
-					<p>{row.original.orderNo}</p>
+				<div className="font-medium flex flex-wrap items-center gap-x-1 font-inter">
+					<p className="text-wrap">{row.original.orderNumber}</p>
 					<button className="shrink-0">
 						<Image
 							src="/assets/icons/copy.svg"
@@ -148,23 +134,50 @@ export const columns: ColumnDef<ITransaction>[] = [
 	},
 	{
 		id: "actions",
-		header: "Status/Action",
+		header: "Status / Action",
 		enableHiding: false,
-		cell: ({ row }) => (
-			<div className="font-inter capitalize">
-				<p className="font-medium">{row.original.status}</p>
-				<a
-					href="#"
-					className="text-[#008000]"
-				>
-					Download receipt
-				</a>
-			</div>
-		),
+		cell: ({ row }) => {
+			return (
+				<div className="font-inter capitalize">
+					<p className="font-medium">{row.original.status}</p>
+					<a
+						href="#"
+						className="text-[#008000]"
+					>
+						Download receipt
+					</a>
+				</div>
+			);
+		},
 	},
 ];
 
 export function TransactionsTable() {
+	const [pageParams] = React.useState({
+		pageIndex: 0,
+		pageSize: PAGE_SIZE,
+	});
+
+	const { data: transactions, isFetching } = useQuery({
+		queryKey: [
+			"user",
+			"transactions",
+			{
+				pageIndex: pageParams.pageIndex,
+				pageSize: pageParams.pageSize,
+			},
+		],
+		queryFn: () =>
+			getAllTransactions({
+				page: pageParams.pageIndex,
+				size: pageParams.pageSize,
+			}),
+		staleTime: 1000 * 60 * 5,
+		placeholderData: keepPreviousData,
+	});
+
+	const [data] = React.useState(() => transactions! ?? []);
+
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[]
 	);
@@ -212,10 +225,10 @@ export function TransactionsTable() {
 					<Input
 						placeholder="Search"
 						value={
-							(table.getColumn("orderNo")?.getFilterValue() as string) ?? ""
+							(table.getColumn("orderNumber")?.getFilterValue() as string) ?? ""
 						}
 						onChange={(event) =>
-							table.getColumn("orderNo")?.setFilterValue(event.target.value)
+							table.getColumn("orderNumber")?.setFilterValue(event.target.value)
 						}
 						className="text-[#667085] placeholder:text-[#667085] border-none shadow-none h-6"
 					/>
@@ -245,7 +258,12 @@ export function TransactionsTable() {
 						))}
 					</TableHeader>
 					<TableBody>
-						{table.getRowModel().rows?.length ? (
+						{isFetching ? (
+							<RowsSkeleton
+								length={4}
+								columnCount={columns.length}
+							/>
+						) : table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
@@ -277,7 +295,7 @@ export function TransactionsTable() {
 					</TableBody>
 				</Table>
 			</div>
-			{/* <div className="flex items-center justify-end space-x-2 py-4">
+			<div className="flex items-center justify-end space-x-2 p-2 px-3">
 				<div className="text-muted-foreground flex-1 text-sm">
 					{table.getFilteredSelectedRowModel().rows.length} of{" "}
 					{table.getFilteredRowModel().rows.length} row(s) selected.
@@ -300,7 +318,32 @@ export function TransactionsTable() {
 						Next
 					</Button>
 				</div>
-			</div> */}
+			</div>
 		</div>
+	);
+}
+
+function RowsSkeleton({
+	columnCount,
+	length,
+}: {
+	columnCount: number;
+	length: number;
+}) {
+	return (
+		<>
+			{Array.from({ length }).map((_, idx) => (
+				<TableRow
+					key={`loading-row-${idx}`}
+					className="animate-pulse"
+				>
+					{Array.from({ length: columnCount }).map((_, colIdx) => (
+						<TableCell key={colIdx}>
+							<div className="h-[32px] w-full bg-muted rounded" />
+						</TableCell>
+					))}
+				</TableRow>
+			))}
+		</>
 	);
 }

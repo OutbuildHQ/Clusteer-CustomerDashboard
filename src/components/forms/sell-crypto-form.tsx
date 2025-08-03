@@ -1,3 +1,5 @@
+"use client";
+
 import { MAXIMUM_VALUE, MINIMUM_VALUE } from "@/lib/constants";
 import { SellCryptoSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";

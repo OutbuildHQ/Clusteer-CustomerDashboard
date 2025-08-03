@@ -1,9 +1,9 @@
+import { Toaster } from "@/components/ui/sonner";
+import ReactQueryClientProvider from "@/providers/ReactQueryClientProvider";
 import type { Metadata } from "next";
 import { Inter, Lexend, Mona_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import NavBar from "@/components/nav-bar";
-import ReactQueryClientProvider from "@/providers/ReactQueryClientProvider";
 
 const lexend = Lexend({
 	variable: "--font-lexend",
@@ -74,8 +74,8 @@ export default function RootLayout({
 			<body
 				className={`${lexend.variable} ${monaSans.variable} ${inter.variable} ${avenirNext.variable} antialiased`}
 			>
-				<NavBar />
 				<ReactQueryClientProvider>{children}</ReactQueryClientProvider>
+				<Toaster />
 			</body>
 		</html>
 	);

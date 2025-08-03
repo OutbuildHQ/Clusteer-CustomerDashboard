@@ -6,17 +6,17 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { CURRENCIES, NETWORKS } from "@/lib/data";
+import { NETWORKS } from "@/lib/data";
 import { Copy, Dot } from "lucide-react";
 import Image from "next/image";
 
-export const dynamicParams = false;
+// export const dynamicParams = false;
 
-export async function generateStaticParams() {
-	return CURRENCIES.map((c) => ({
-		asset: c.currency,
-	}));
-}
+// export async function generateStaticParams() {
+// 	return CURRENCIES.map((c) => ({
+// 		asset: c.currency,
+// 	}));
+// }
 
 export default async function Page({
 	params,

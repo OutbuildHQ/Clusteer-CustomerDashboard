@@ -3,13 +3,13 @@ import { ArrowUp, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export const dynamicParams = false;
+// export const dynamicParams = false;
 
-export async function generateStaticParams() {
-	return CURRENCIES.map((c) => ({
-		asset: c.currency,
-	}));
-}
+// export async function generateStaticParams() {
+// 	return CURRENCIES.map((c) => ({
+// 		asset: c.currency,
+// 	}));
+// }
 
 export default async function Page({
 	params,

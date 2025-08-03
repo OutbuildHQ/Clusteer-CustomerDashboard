@@ -10,7 +10,16 @@
 			{
 				"source": "/assets/:asset",
 				"destination": "/out/assets/:asset/index.html"
-			}
+			},
+			{
+				"source": "/login",
+				"destination": "/out/login.html"
+			},
+			{
+				"source": "/signup",
+				"destination": "/out/si"
+			},
+			{ "source": "**", "destination": "/index.html" }
 		],
 		"trailingSlash": true
 	}

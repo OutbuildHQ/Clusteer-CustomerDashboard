@@ -1,39 +1,100 @@
 "use client";
 
+import { deleteUserAccount, updateUser } from "@/lib/api/auth/actions";
 import { UpdateProfileFormSchema } from "@/lib/validation";
+import { useUser } from "@/store/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AvatarImage } from "@radix-ui/react-avatar";
-import { CircleQuestionMark, CloudUpload, Mail } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Mail } from "lucide-react";
 import Image from "next/image";
-import { FieldValues, useForm } from "react-hook-form";
+import { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Avatar } from "../ui/avatar";
+import { Button } from "../ui/button";
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
 	FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import UploadImage from "../upload-image";
 
-type UpdateProfileFormType = z.infer<typeof UpdateProfileFormSchema>;
+export type UpdateProfileFormData = z.infer<typeof UpdateProfileFormSchema>;
 
 export default function UpdateProfileForm() {
-	const form = useForm<UpdateProfileFormType>({
-		resolver: zodResolver(UpdateProfileFormSchema),
-		defaultValues: {
-			displayName: "Olivia",
-			username: "@Olivia",
-			email: "Olivia@gmail.com",
-			phoneNo: "+2347013648409",
+	const user = useUser();
+
+	const [avatarImage, setAvatarImage] = useState<File>(null!);
+
+	const handleImageSelect = useCallback((file: File) => {
+		setAvatarImage(file);
+	}, []);
+
+	const queryClient = useQueryClient();
+
+	const { isPending: isUpdating, mutate: updateProfile } = useMutation({
+		mutationFn: updateUser,
+		onMutate: async (newUser) => {
+			await queryClient.cancelQueries({ queryKey: ["user"] });
+
+			const prevUser = queryClient.getQueryData(["user"]);
+
+			queryClient.setQueryData(["user"], newUser);
+
+			return { prevUser };
+		},
+		onError: (err, updatedTodo, context) => {
+			queryClient.setQueryData(["user"], context?.prevUser);
+		},
+		onSettled: () => {
+			queryClient.invalidateQueries({ queryKey: ["user"] });
 		},
 	});
 
-	const onSubmit = (values: FieldValues) => console.log(values);
+	const { isPending: isDeleting, mutate: deleteAccount } = useMutation({
+		mutationFn: deleteUserAccount,
+		onSettled: () => {
+			queryClient.invalidateQueries({ queryKey: ["user"] });
+		},
+	});
+
+	const form = useForm<UpdateProfileFormData>({
+		mode: "onChange",
+		resolver: zodResolver(UpdateProfileFormSchema),
+		defaultValues: {
+			displayName: `${user?.firstName} ${user?.lastName}`,
+			username: user?.username,
+			email: user?.email,
+			phoneNo: user?.phone,
+			// ...data,
+		},
+	});
+
+	const isBusy = isDeleting || isUpdating;
+	const isFormInvalid = !form.formState.isValid;
+
+	const onSubmit = (values: UpdateProfileFormData) => {
+		const updatePayload: Parameters<typeof updateUser>[0] = {
+			profile: values,
+			avatar: null,
+		};
+
+		if (avatarImage) {
+			const formData = new FormData();
+			formData.append("avatar", avatarImage);
+			updatePayload.avatar = formData;
+		}
+
+		updateProfile(updatePayload, {
+			onSuccess: () => {
+				form.reset(values);
+				setAvatarImage(null!);
+			},
+		});
+	};
 
 	return (
 		<Form {...form}>
@@ -128,76 +189,13 @@ export default function UpdateProfileForm() {
 						</FormItem>
 					)}
 				/>
-				<FormField
-					control={form.control}
-					name="profileImage"
-					render={() => (
-						<FormItem className="flex flex-col lg:flex-row gap-y-4 lg:gap-x-8 pb-5 border-b border-[#E9EAEB]">
-							<div>
-								<FormLabel className="font-semibold text-[#414651] gap-x-0.5 lg:w-[280px] shrink-0">
-									Your Photo <span className="text-[#a8faa8]">*</span>{" "}
-									<CircleQuestionMark
-										stroke="#A4A7AE"
-										strokeWidth={2}
-										size={16}
-									/>
-								</FormLabel>
-								<FormDescription className="text-[#535862]">
-									This will be displayed on your profile.
-								</FormDescription>
-							</div>
-							<div className="flex gap-x-5 w-full max-w-[512px]">
-								<Avatar className="size-16 border-[0.75px] border-[#00000014]">
-									<AvatarImage src="https://github.com/shadcn.png" />
-								</Avatar>
-								<FormControl>
-									<div className="relative flex flex-col items-center border-2 border-[#A6E615] w-full rounded-[12px] py-4 px-6 text-sm text-center">
-										<div className="p-2.5 size-10 border border-[#E9EAEB] rounded-xl shadow-[0px_1px_2px_0px_#0A0D120D]">
-											<CloudUpload
-												size={20}
-												stroke="#414651"
-											/>
-										</div>
-										<div className="flex item-center">
-											<div>
-												<p className="mt-3 text-[#535862]">
-													<span className="text-[#008000] font-semibold">
-														Click to upload
-													</span>{" "}
-													or drag and drop
-												</p>
-												<p className="mt-1 text-[#535862]">
-													SVG, PNG, JPG or GIF (max. 800x400px)
-												</p>
-											</div>
-											<div className="relative h-fit">
-												<Image
-													className="size-10"
-													src="/assets/icons/file.svg"
-													alt="file icon"
-													width={40}
-													height={40}
-												/>
-												<Image
-													className="absolute left-0 bottom-1.5"
-													src="/assets/icons/file-type-icon.svg"
-													alt="file type icon"
-													width={26}
-													height={16}
-												/>
-											</div>
-										</div>
-										<input
-											type="file"
-											className="hidden"
-											// {...field}
-										/>
-									</div>
-								</FormControl>
-							</div>
-							<FormMessage />
-						</FormItem>
-					)}
+
+				<UploadImage
+					username={user?.username}
+					currentAvatar={
+						avatarImage ? URL.createObjectURL(avatarImage) : user!.avatar
+					}
+					onImageSelect={handleImageSelect}
 				/>
 
 				<div className="flex flex-col items-center lg:flex-row gap-y-4 lg:gap-x-8 pb-5 border-b border-[#E9EAEB]">
@@ -205,7 +203,7 @@ export default function UpdateProfileForm() {
 						User ID
 					</span>
 					<div className="flex gap-x-2 py-2.5 px-11.5 ml-auto">
-						<span>1901191989</span>
+						<span>{user!.id}</span>
 						<button className="shrink-0">
 							<Image
 								src="/assets/icons/copy.svg"
@@ -220,28 +218,36 @@ export default function UpdateProfileForm() {
 					<span className="font-semibold lg:max-w-[280px] w-full text-[#414651] gap-x-0.5 text-sm">
 						Registration date
 					</span>
-					<div className="py-2.5 px-11.5 ml-auto">2022-03-10 15:33:21</div>
+					<div className="py-2.5 px-11.5 ml-auto">
+						{" "}
+						{new Date(user!.dateJoined).getFullYear()}
+					</div>
 				</div>
 				<div className="flex">
 					<Button
 						type="button"
+						onClick={() => deleteAccount()}
 						variant="link"
 						className="p-0 text-sm text-destructive font-semibold"
+						disabled={isBusy}
 					>
 						Close account
 					</Button>
 					<div className="ml-auto flex gap-x-3">
 						<Button
 							variant="outline"
+							disabled={isBusy}
 							className="p-0 text-sm text-[#414651] font-semibold h-10 px-3.5"
 						>
 							Cancel
 						</Button>
 						<Button
+							type="submit"
 							variant="outline"
+							disabled={!form.formState.isDirty || isFormInvalid || isBusy}
 							className="p-0 text-sm font-semibold h-10 px-3.5 gradient-border bg-[#11C211] border-[#0a0d120d] text-white"
 						>
-							Save
+							{isUpdating ? "Saving..." : "Save"}
 						</Button>
 					</div>
 				</div>

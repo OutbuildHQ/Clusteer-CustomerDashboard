@@ -1,5 +1,6 @@
 "use client";
 
+import { IResponse } from "@/types";
 import {
 	MutationCache,
 	QueryClient,
@@ -10,7 +11,7 @@ import { AxiosError } from "axios";
 import { useState } from "react";
 import { toast } from "sonner";
 
-type ErrorResponse = { errors: string[] };
+type ErrorResponse = IResponse<null> & { errors: string[] };
 
 interface CustomMutationMeta extends Record<string, unknown> {
 	skipGlobalErrorHandler?: boolean;
@@ -38,7 +39,7 @@ export default function ReactQueryClientProvider({
 
 		const data = error.response.data;
 
-		console.log(data);
+		toast.error(data.message);
 
 		// if ("detail" in data) {
 		// 	toast.error(data.detail);

@@ -7,10 +7,32 @@ import {
 } from "./constants";
 
 export const LoginFormSchema = z.object({
-	email: z.string().email(),
-	password: z.string(),
+	email: z.string().email({ message: "Invalid email" }),
+	password: z.string().min(1, { message: "Password is required" }),
 });
 
+export const SignupFormSchema = z.object({
+	firstName: z.string().min(3, { message: "Minimum 3 letters" }),
+	lastName: z.string().min(3, { message: "Minimum 3 letters" }),
+	username: z
+		.string()
+		.min(3, { message: "Username must be at least 3 characters" })
+		.regex(/^[a-zA-Z][a-zA-Z0-9_]+$/, {
+			message:
+				"Username must start with a letter and contain only letters, numbers, and underscores",
+		}),
+	email: z.string().email({ message: "Invalid Email" }),
+	phoneNumber: z
+		.string()
+		.regex(/^0[789][01]\d{8}$/, "Invalid phone number format")
+		.optional()
+		.or(z.literal("")),
+	password: z.string().min(1, { message: "Password is required" }),
+	gender: z.enum(["male", "female", "other"], {
+		required_error: "Gender is required",
+		invalid_type_error: "Invalid gender option",
+	}),
+});
 
 export const BuyCryptoSchema = z.object({
 	pay: z
@@ -44,6 +66,7 @@ export const PaymentFormSchema = z.object({
 	bank: z.string(),
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const IMAGE_SCHEMA = z
 	.instanceof(File)
 	.refine((file) => ALLOWED_IMAGE_FILES.includes(file.type), {
@@ -54,11 +77,24 @@ const IMAGE_SCHEMA = z
 	});
 
 export const UpdateProfileFormSchema = z.object({
-	displayName: z.string(),
-	username: z.string(),
-	email: z.string().email(),
-	profileImage: IMAGE_SCHEMA,
-	phoneNo: z.string(),
+	displayName: z
+		.string()
+		.min(2, "Display name must be at least 2 characters")
+		.max(50, "Display name must be at most 50 characters"),
+	username: z
+		.string()
+		.min(3, "Username must be at least 3 characters")
+		.max(20, "Username must be at most 20 characters")
+		.regex(
+			/^[a-zA-Z0-9_]+$/,
+			"Username can only contain letters, numbers, and underscores"
+		),
+	email: z.string().email("Please enter a valid email address"),
+	phoneNo: z
+		.string()
+		.length(11, "Phone number must be at must be 11 digits")
+		.regex(/^[0-9+\-() ]+$/, "Invalid phone number format"),
+	// profileImage: IMAGE_SCHEMA,
 });
 
 export const IdentityVerficationFormSchema = z.object({

@@ -63,7 +63,7 @@ export default function TransactionSummaryModal() {
 			<DialogFooter>
 				<Button
 					type="button"
-					onClick={() => openModal(MODAL_IDS.FEE_DETAILS)}
+					onClick={() => openModal(MODAL_IDS.PAYMENT)}
 					className="bg-[#21241D] rounded-[100px] w-full font-medium h-[38px] px-5 text-[15px]"
 				>
 					Confirm

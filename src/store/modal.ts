@@ -22,7 +22,9 @@ const useModalStore = create<ModalStore>((set, get) => ({
 	actions: {
 		openModal: (modal) => {
 			get().actions.closeModal();
-			set({ currentModal: modal });
+			setTimeout(() => {
+				set({ currentModal: modal });
+			}, 200);
 		},
 		closeModal: () => set({ currentModal: null }),
 	},

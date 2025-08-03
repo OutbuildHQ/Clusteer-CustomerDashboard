@@ -37,7 +37,7 @@ export default function LoginForm() {
 
 	const { isPending, mutate } = useMutation({
 		mutationFn: loginUser,
-		onSuccess: () => router.push("/"),
+		onSuccess: () => router.push("/profile"),
 	});
 
 	const onSubmit = (data: LoginFormType) => {
@@ -107,6 +107,7 @@ export default function LoginForm() {
 					/>
 					<Button
 						type="submit"
+						disabled={isPending}
 						className="mt-1 font-mona border-black text-[#111111] bg-light-green border font-semibold text-base shadow-xs hover:bg-muted"
 					>
 						{isPending ? (

@@ -16,3 +16,5 @@ export const ALLOWED_IMAGE_FILES = [
 	"image/svg+xml",
 	"image/gif",
 ];
+
+export const PAGE_SIZE = 10;

@@ -84,7 +84,7 @@ export default function Page() {
 			<section className="mt-14.5">
 				<BuySellCrypto />
 			</section>
-			<section className="mt-11 hidden lg:block">
+			<section className="mt-11">
 				<TransactionsTable />
 			</section>
 		</div>

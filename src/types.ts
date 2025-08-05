@@ -67,3 +67,8 @@ export interface IUser {
 	type: string;
 	active: boolean;
 }
+
+export type Auth2FARequest = {
+	twoFactorSecret: string;
+	twoFactorQR: string;
+};

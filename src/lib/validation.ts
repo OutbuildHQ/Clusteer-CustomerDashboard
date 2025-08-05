@@ -100,3 +100,9 @@ export const UpdateProfileFormSchema = z.object({
 export const IdentityVerficationFormSchema = z.object({
 	residency: z.string(),
 });
+
+export const GoogleOTPFormSchema = z.object({
+	otp: z.string().regex(/^\d{6}$/, {
+		message: "Code must be exactly 6 digits",
+	}),
+});

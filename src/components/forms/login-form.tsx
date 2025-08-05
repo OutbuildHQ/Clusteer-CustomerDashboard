@@ -37,7 +37,7 @@ export default function LoginForm() {
 
 	const { isPending, mutate } = useMutation({
 		mutationFn: loginUser,
-		onSuccess: () => router.push("/profile"),
+		onSuccess: () => router.push("/"),
 	});
 
 	const onSubmit = (data: LoginFormType) => {

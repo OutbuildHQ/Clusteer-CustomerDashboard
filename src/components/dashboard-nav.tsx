@@ -15,24 +15,26 @@ const NAVLINKS = [
 
 export default function DashboardNav() {
 	return (
-		<nav>
-			<Container className="flex items-center py-[18px] px-4 w-full bg-white lg:hidden">
-				<Image
-					src="/assets/icons/logo_with_name.svg"
-					alt="Clusteer logo"
-					className="shrink-0 md:w-[160px] h-[38px]"
-					width={103}
-					height={24}
-				/>
-				<Image
-					src="/assets/icons/menu.svg"
-					alt="Menu icon"
-					className="ml-auto md:hidden"
-					width={24}
-					height={24}
-				/>
-			</Container>
-			<div className="pt-5 h-full rounded-lg hidden lg:block bg-white border border-[#E9EAEB] shadow-[0px_1px_2px_0px_#0A0D120D]">
+		<>
+			<nav>
+				<Container className="flex items-center py-[18px] px-4 w-full bg-white lg:hidden">
+					<Image
+						src="/assets/icons/logo_with_name.svg"
+						alt="Clusteer logo"
+						className="shrink-0 md:w-[160px] h-[38px]"
+						width={103}
+						height={24}
+					/>
+					<Image
+						src="/assets/icons/menu.svg"
+						alt="Menu icon"
+						className="ml-auto md:hidden"
+						width={24}
+						height={24}
+					/>
+				</Container>
+			</nav>
+			<nav className="pt-5 h-full rounded-lg hidden lg:block bg-white border border-[#E9EAEB] shadow-[0px_1px_2px_0px_#0A0D120D]">
 				<div className="px-5">
 					<Image
 						src="/assets/icons/logo_with_name.svg"
@@ -91,7 +93,7 @@ export default function DashboardNav() {
 						</Link>
 					</ul>
 				</div>
-			</div>
-		</nav>
+			</nav>
+		</>
 	);
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteUserAccount, updateUser } from "@/lib/api/auth/actions";
+import { deleteUserAccount, updateUser } from "@/lib/api/user/actions";
 import { UpdateProfileFormSchema } from "@/lib/validation";
 import { useUser } from "@/store/user";
 import { zodResolver } from "@hookform/resolvers/zod";

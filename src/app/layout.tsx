@@ -75,7 +75,21 @@ export default function RootLayout({
 				className={`${lexend.variable} ${monaSans.variable} ${inter.variable} ${avenirNext.variable} antialiased`}
 			>
 				<ReactQueryClientProvider>{children}</ReactQueryClientProvider>
-				<Toaster />
+				<Toaster
+				// icons={{
+				// 	success: <Lightbulb />,
+				// }}
+				// toastOptions={{
+				// 	classNames: {
+				// 		toast: "toast",
+				// 		title: "title",
+				// 		description: "description",
+				// 		actionButton: "action-button",
+				// 		cancelButton: "cancel-button",
+				// 		closeButton: "close-button",
+				// 	},
+				// }}
+				/>
 			</body>
 		</html>
 	);

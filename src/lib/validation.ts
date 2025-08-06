@@ -12,8 +12,8 @@ export const LoginFormSchema = z.object({
 });
 
 export const SignupFormSchema = z.object({
-	firstName: z.string().min(3, { message: "Minimum 3 letters" }),
-	lastName: z.string().min(3, { message: "Minimum 3 letters" }),
+	// firstName: z.string().min(3, { message: "Minimum 3 letters" }),
+	// lastName: z.string().min(3, { message: "Minimum 3 letters" }),
 	username: z
 		.string()
 		.min(3, { message: "Username must be at least 3 characters" })
@@ -22,16 +22,14 @@ export const SignupFormSchema = z.object({
 				"Username must start with a letter and contain only letters, numbers, and underscores",
 		}),
 	email: z.string().email({ message: "Invalid Email" }),
-	phoneNumber: z
+	phone: z
 		.string()
-		.regex(/^0[789][01]\d{8}$/, "Invalid phone number format")
-		.optional()
-		.or(z.literal("")),
+		.regex(/^((^0)(7|8|9)(0|1)[0-9]{8})$/, "Invalid phone number format"),
 	password: z.string().min(1, { message: "Password is required" }),
-	gender: z.enum(["male", "female", "other"], {
-		required_error: "Gender is required",
-		invalid_type_error: "Invalid gender option",
-	}),
+	// gender: z.enum(["male", "female", "other"], {
+	// 	required_error: "Gender is required",
+	// 	invalid_type_error: "Invalid gender option",
+	// }),
 });
 
 export const BuyCryptoSchema = z.object({
@@ -102,6 +100,13 @@ export const IdentityVerficationFormSchema = z.object({
 });
 
 export const GoogleOTPFormSchema = z.object({
+	otp: z.string().regex(/^\d{6}$/, {
+		message: "Code must be exactly 6 digits",
+	}),
+});
+
+export const ChangeEmailFormSchema = z.object({
+	email: z.string().email("Please enter a valid email address"),
 	otp: z.string().regex(/^\d{6}$/, {
 		message: "Code must be exactly 6 digits",
 	}),

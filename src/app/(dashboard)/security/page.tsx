@@ -53,30 +53,32 @@ export default function Page() {
 							</span>
 						</li>
 					</Link>
-					<li className="bg-[#F2F2F0] rounded-2xl border border-[#21241D1A] p-5 xl:max-w-[435px] w-full shrink-0 md:space-y-2">
-						<div className="flex items-center">
-							<Mail size={46} />
-							<Badge
-								variant="secondary"
-								className="rounded-full ml-auto h-6 text-[#344054] bg-[#E9E9E9] py-1"
-							>
-								<DotIcon
-									stroke="#344054"
-									strokeWidth={8}
-								/>
-								Disabled
-							</Badge>
-						</div>
-						<p className="font-medium text-lg mt-2.5">Email verification</p>
-						<p className="text-sm">
-							Email verification codes help guarantee account and transaction
-							security. Changing your bound email will disable payment and
-							withdrawal for 24 hours.
-						</p>
-						<span className="text-dark-green text-[15px] font-medium mt-1.5 inline-block">
-							Bind
-						</span>
-					</li>
+					<Link href="/security/change-email">
+						<li className="bg-[#F2F2F0] rounded-2xl border border-[#21241D1A] p-5 xl:max-w-[435px] w-full shrink-0 md:space-y-2">
+							<div className="flex items-center">
+								<Mail size={46} />
+								<Badge
+									variant="secondary"
+									className="rounded-full ml-auto h-6 text-[#344054] bg-[#E9E9E9] py-1"
+								>
+									<DotIcon
+										stroke="#344054"
+										strokeWidth={8}
+									/>
+									Disabled
+								</Badge>
+							</div>
+							<p className="font-medium text-lg mt-2.5">Email verification</p>
+							<p className="text-sm">
+								Email verification codes help guarantee account and transaction
+								security. Changing your bound email will disable payment and
+								withdrawal for 24 hours.
+							</p>
+							<span className="text-dark-green text-[15px] font-medium mt-1.5 inline-block">
+								Bind
+							</span>
+						</li>
+					</Link>
 					<li className="bg-[#F2F2F0] rounded-2xl border border-[#21241D1A] p-5 xl:max-w-[435px] w-full shrink-0 md:space-y-2">
 						<div className="flex items-center">
 							<Image

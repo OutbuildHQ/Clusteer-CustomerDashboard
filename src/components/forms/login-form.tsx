@@ -4,9 +4,11 @@ import { loginUser } from "@/lib/api/auth";
 import { LoginFormSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { ChevronRight, Loader2 } from "lucide-react";
+import { ChevronRight, Eye, EyeOff, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
@@ -20,7 +22,6 @@ import {
 	FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { useRouter } from "next/navigation";
 
 export type LoginFormType = z.infer<typeof LoginFormSchema>;
 
@@ -34,6 +35,10 @@ export default function LoginForm() {
 	});
 
 	const router = useRouter();
+
+	const [showPassword, setShowPassword] = useState(false);
+
+	const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
 	const { isPending, mutate } = useMutation({
 		mutationFn: loginUser,
@@ -92,11 +97,33 @@ export default function LoginForm() {
 							<FormItem className="gap-1.5">
 								<FormLabel className="font-medium">Password</FormLabel>
 								<FormControl>
-									<Input
-										className="h-11"
-										placeholder="Create a Password"
-										{...field}
-									/>
+									<div className="relative">
+										<Input
+											className="h-11 placeholder:text-muted-foreground"
+											type={showPassword ? "text" : "password"}
+											placeholder="••••••••"
+											{...field}
+										/>
+										<Button
+											type="button"
+											variant="ghost"
+											size="sm"
+											className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+											onClick={togglePasswordVisibility}
+											aria-label={
+												showPassword ? "Hide password" : "Show password"
+											}
+										>
+											{showPassword ? (
+												<Eye className="h-4 w-4 text-muted-foreground" />
+											) : (
+												<EyeOff className="h-4 w-4 text-muted-foreground" />
+											)}
+											<span className="sr-only">
+												{showPassword ? "Hide password" : "Show password"}
+											</span>
+										</Button>
+									</div>
 								</FormControl>
 								<FormDescription className="text-left text-black text-sm font-lexend">
 									Must be at least 8 characters.

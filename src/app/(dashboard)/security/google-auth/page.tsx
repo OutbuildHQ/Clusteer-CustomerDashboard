@@ -2,12 +2,11 @@
 
 import GoogleAuthForm from "@/components/forms/google-otp-form";
 import GoogleAuthQRCode from "@/components/google-auth-qrcode";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import SecurityAlert from "@/components/security-alert";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ArrowLeft } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 
@@ -48,19 +47,7 @@ export default function Page() {
 		() => ({
 			"bind-new-authenticator": (
 				<div className="lg:max-w-[533px] mt-5">
-					<Alert className="bg-[#FEF5E6] p-4 flex gap-x-3 border-0 rounded-md">
-						<Image
-							src="/assets/icons/alert_lightbulb.svg"
-							alt="alert lightbulb icon"
-							width={20}
-							height={20}
-						/>
-						<AlertDescription className="text-[#FE754B]">
-							For your assets security, it won’t be able to Withdraw or Sell in
-							P2P within 24 hours of after setting up or changing the Google
-							Authentication
-						</AlertDescription>
-					</Alert>
+					<SecurityAlert content="For your assets security, it won’t be able to Withdraw or Sell in P2P within 24 hours of after setting up or changing the Google Authentication" />
 					<div className="mt-5">
 						<span className="font-medium text-lg">
 							Add key in Google Authenticator and backup

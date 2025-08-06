@@ -1,11 +1,15 @@
 "use client";
 
+import { registerUser } from "@/lib/api/auth";
+import { SignupFormSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronRight } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { ChevronRight, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
+import PasswordInput from "../password-input";
 import { Button } from "../ui/button";
 import {
 	Form,
@@ -18,25 +22,27 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 
-const signupFormSchema = z.object({
-	name: z.string(),
-	email: z.string().email(),
-	password: z.string(),
-});
-
-type SignupFormType = z.infer<typeof signupFormSchema>;
+export type SignupFormData = z.infer<typeof SignupFormSchema>;
 
 export default function SignUpForm() {
-	const form = useForm<SignupFormType>({
-		resolver: zodResolver(signupFormSchema),
+	const form = useForm<SignupFormData>({
+		mode: "onChange",
+		resolver: zodResolver(SignupFormSchema),
 		defaultValues: {
-			name: "",
+			username: "",
 			email: "",
+			phone: "",
 			password: "",
 		},
 	});
 
-	const onSubmit = (values: FieldValues) => console.log(values);
+	const { isPending, mutate } = useMutation({
+		mutationFn: registerUser,
+	});
+
+	const onSubmit = (data: SignupFormData) => {
+		mutate(data);
+	};
 
 	return (
 		<div className="p-5 form-border space-y-5 rounded-2xl w-full">
@@ -64,14 +70,14 @@ export default function SignUpForm() {
 				>
 					<FormField
 						control={form.control}
-						name="name"
+						name="username"
 						render={({ field }) => (
 							<FormItem className="gap-1.5">
-								<FormLabel className="font-medium">Name</FormLabel>
+								<FormLabel className="font-medium">Username</FormLabel>
 								<FormControl>
 									<Input
 										className="h-11"
-										placeholder="Enter your name"
+										placeholder="Enter your username"
 										{...field}
 									/>
 								</FormControl>
@@ -98,16 +104,29 @@ export default function SignUpForm() {
 					/>
 					<FormField
 						control={form.control}
+						name="phone"
+						render={({ field }) => (
+							<FormItem className="gap-1.5">
+								<FormLabel className="font-medium">Phone number</FormLabel>
+								<FormControl>
+									<Input
+										type="tel"
+										className="h-11"
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
 						name="password"
 						render={({ field }) => (
 							<FormItem className="gap-1.5">
 								<FormLabel className="font-medium">Password</FormLabel>
 								<FormControl>
-									<Input
-										className="h-11"
-										placeholder="Create a Password"
-										{...field}
-									/>
+									<PasswordInput {...field} />
 								</FormControl>
 								<FormDescription className="text-left text-black text-sm font-lexend">
 									Must be at least 8 characters.
@@ -118,9 +137,17 @@ export default function SignUpForm() {
 					/>
 					<Button
 						type="submit"
+						disabled={isPending}
 						className="mt-1 font-mona border-black text-[#111111] bg-light-green border font-semibold text-base shadow-xs hover:bg-muted"
 					>
-						Sign up
+						{isPending ? (
+							<>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+								Signing up...
+							</>
+						) : (
+							<>Sign up</>
+						)}
 					</Button>
 					<div className="text-center mt-3">
 						Already have an account?

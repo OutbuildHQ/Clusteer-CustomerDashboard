@@ -111,3 +111,19 @@ export const ChangeEmailFormSchema = z.object({
 		message: "Code must be exactly 6 digits",
 	}),
 });
+
+export const ForgotPasswordFormSchema = z.object({
+	email: z.string().email("Please enter a valid email address"),
+});
+
+export const ResetPasswordFormSchema = z.object({
+	oldPassword: z.string().min(1, { message: "Password is required" }),
+	newPassword: z.string().min(1, { message: "Password is required" }),
+	// confirmPassword: z
+	// 	.string()
+	// 	.min(1, { message: "Confirm Password is required" }),
+});
+// .refine((data) => data.newPassword === data.confirmPassword, {
+// 	message: "Passwords do not match",
+// 	path: ["confirmPassword"], // show error on confirmPassword field
+// });

@@ -10,7 +10,12 @@ export function middleware(request: NextRequest) {
 		return NextResponse.next();
 	}
 
-	const publicPaths = ["/login", "/signup"];
+	const publicPaths = [
+		"/login",
+		"/signup",
+		"/reset-password",
+		"/change-password",
+	];
 	if (publicPaths.includes(pathname)) {
 		return NextResponse.next();
 	}

@@ -1,4 +1,6 @@
 import { LoginFormType } from "@/components/forms/login-form";
+import { ResetPasswordFormData } from "@/components/forms/reset-password-form";
+import { SignupFormData } from "@/components/forms/signup-form";
 import apiClient from "@/lib/axios";
 import { Auth2FARequest, IResponse } from "@/types";
 import axios, { AxiosError } from "axios";
@@ -6,6 +8,24 @@ import axios, { AxiosError } from "axios";
 export async function loginUser(payload: LoginFormType) {
 	try {
 		const res = await axios.post("/api/auth/login", payload);
+		return res.data;
+	} catch (error) {
+		throw error as AxiosError;
+	}
+}
+
+export async function registerUser(payload: SignupFormData) {
+	try {
+		const res = await apiClient.post("/user/register", payload);
+		return res.data;
+	} catch (error) {
+		throw error as AxiosError;
+	}
+}
+
+export async function resetPassword(payload: ResetPasswordFormData) {
+	try {
+		const res = await apiClient.post("/user/password/update", payload);
 		return res.data;
 	} catch (error) {
 		throw error as AxiosError;

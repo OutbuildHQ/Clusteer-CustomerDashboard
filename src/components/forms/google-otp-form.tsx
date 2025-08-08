@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { Toast } from "@/components/toast";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import {
@@ -43,7 +43,7 @@ export default function GoogleAuthForm({
 	const { isPending, mutate: verifyOTP } = useMutation({
 		mutationFn: verifyGoogleAuthOTP,
 		onSuccess: () => {
-			toast.success("2FA Setup Successful");
+			Toast.success("2FA Setup Successful");
 			onVerificationComplete();
 		},
 	});

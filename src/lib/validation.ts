@@ -127,3 +127,15 @@ export const ResetPasswordFormSchema = z.object({
 // 	message: "Passwords do not match",
 // 	path: ["confirmPassword"], // show error on confirmPassword field
 // });
+
+export const ChangePasswordFormSchema = z
+	.object({
+		newPassword: z.string().min(1, { message: "Password is required" }),
+		confirmPassword: z
+			.string()
+			.min(1, { message: "Confirm Password is required" }),
+	})
+	.refine((data) => data.newPassword === data.confirmPassword, {
+		message: "Passwords do not match",
+		path: ["confirmPassword"], // show error on confirmPassword field
+	});

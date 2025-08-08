@@ -4,7 +4,7 @@ import { authRequest2FA } from "@/lib/api/auth";
 import { useQuery } from "@tanstack/react-query";
 import { Copy } from "lucide-react";
 import Image from "next/image";
-import { toast } from "sonner";
+import { Toast } from "@/components/toast";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 
@@ -19,10 +19,10 @@ export default function GoogleAuthQRCode() {
 
 		try {
 			await navigator.clipboard.writeText(data.twoFactorSecret);
-			toast.success("Copied to clipboard");
+			Toast.success("Copied to clipboard");
 		} catch (err) {
 			console.error("Failed to copy text:", err);
-			toast.error("Failed to copy");
+			Toast.error("Failed to copy");
 		}
 	};
 

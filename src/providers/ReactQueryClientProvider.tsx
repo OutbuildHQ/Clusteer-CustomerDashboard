@@ -9,7 +9,7 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AxiosError } from "axios";
 import { useState } from "react";
-import { toast } from "sonner";
+import { Toast } from "@/components/toast";
 
 type ErrorResponse = IResponse<null> & { errors: string[] };
 
@@ -33,20 +33,20 @@ export default function ReactQueryClientProvider({
 		console.error(error);
 
 		if (!error.response || !error.response.data) {
-			toast.error("Something went wrong");
+			Toast.error("Something went wrong");
 			return;
 		}
 
 		const data = error.response.data;
 
-		toast.error(data.message);
+		Toast.error(data.message);
 
 		// if ("detail" in data) {
-		// 	toast.error(data.detail);
+		// 	Toast.error(data.detail);
 		// } else if ("message" in data) {
-		// 	toast.error(data.message);
+		// 	Toast.error(data.message);
 		// } else {
-		// 	toast.error("An unexpected error occurred");
+		// 	Toast.error("An unexpected error occurred");
 		// }
 	};
 

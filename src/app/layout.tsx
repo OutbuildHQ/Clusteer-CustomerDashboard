@@ -76,19 +76,12 @@ export default function RootLayout({
 			>
 				<ReactQueryClientProvider>{children}</ReactQueryClientProvider>
 				<Toaster
-				// icons={{
-				// 	success: <Lightbulb />,
-				// }}
-				// toastOptions={{
-				// 	classNames: {
-				// 		toast: "toast",
-				// 		title: "title",
-				// 		description: "description",
-				// 		actionButton: "action-button",
-				// 		cancelButton: "cancel-button",
-				// 		closeButton: "close-button",
-				// 	},
-				// }}
+					position="bottom-center"
+					toastOptions={{
+						classNames: {
+							toast: "w-full",
+						},
+					}}
 				/>
 			</body>
 		</html>

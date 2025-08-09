@@ -97,7 +97,7 @@ export default function Page() {
 				<div className="flex gap-x-5 items-center py-5 border-b lg:py-0 lg:border-b-0 border-[#21241D33]">
 					<Button
 						variant="ghost"
-						className="!p-0 size-6"
+						className="!p-0 size-6 hover:bg-transparent"
 						onClick={goBack}
 					>
 						<ArrowLeft className="shrink-0 size-full" />

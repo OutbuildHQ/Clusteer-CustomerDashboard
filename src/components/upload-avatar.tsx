@@ -1,21 +1,21 @@
 "use client";
 
-import { CircleQuestionMarkIcon, CloudUpload } from "lucide-react";
+import { CircleQuestionMarkIcon } from "lucide-react";
 import Image from "next/image";
 import { useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
-interface UploadImageProps {
+interface UploadAvatarProps {
 	username?: string;
 	currentAvatar: string;
 	onImageSelect: (file: File) => void;
 }
 
-export default function UploadImage({
+export default function UploadAvatar({
 	username,
 	currentAvatar,
 	onImageSelect,
-}: UploadImageProps) {
+}: UploadAvatarProps) {
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 	const uploadContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -61,12 +61,13 @@ export default function UploadImage({
 					onClick={onUploadContainerClick}
 					className="relative flex flex-col items-center border-2 border-[#A6E615] w-full rounded-[12px] py-4 px-6 text-sm text-center cursor-pointer"
 				>
-					<div className="p-2.5 size-10 border border-[#E9EAEB] rounded-xl shadow-[0px_1px_2px_0px_#0A0D120D]">
-						<CloudUpload
-							size={20}
-							stroke="#414651"
-						/>
-					</div>
+					<Image
+						className="size-10"
+						src="/assets/icons/upload.svg"
+						alt="upload icon"
+						width={40}
+						height={40}
+					/>
 
 					<div className="flex items-center mt-3">
 						<div className="mr-4">

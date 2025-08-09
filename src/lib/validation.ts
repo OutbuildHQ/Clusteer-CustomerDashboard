@@ -1,6 +1,8 @@
 import { z } from "zod";
 import {
+	ALL_SAME_DIGIT_REGEX,
 	ALLOWED_IMAGE_FILES,
+	BVN_REGEX,
 	MAX_IMAGE_SIZE,
 	MAXIMUM_VALUE,
 	MINIMUM_VALUE,
@@ -64,7 +66,6 @@ export const PaymentFormSchema = z.object({
 	bank: z.string(),
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const IMAGE_SCHEMA = z
 	.instanceof(File)
 	.refine((file) => ALLOWED_IMAGE_FILES.includes(file.type), {
@@ -73,6 +74,10 @@ const IMAGE_SCHEMA = z
 	.refine((file) => file.size <= MAX_IMAGE_SIZE, {
 		message: "File size should not exceed 5MB",
 	});
+
+export const NINVerificationFormSchema = z.object({
+	image: IMAGE_SCHEMA,
+});
 
 export const UpdateProfileFormSchema = z.object({
 	displayName: z
@@ -139,3 +144,17 @@ export const ChangePasswordFormSchema = z
 		message: "Passwords do not match",
 		path: ["confirmPassword"], // show error on confirmPassword field
 	});
+
+export const BVNVerificationFormSchema = z.object({
+	bvn: z
+		.string()
+		.trim()
+		.min(11, { message: "BVN must be exactly 11 digits" })
+		.max(11, { message: "BVN must be exactly 11 digits" })
+		.refine((val) => BVN_REGEX.test(val), {
+			message: "BVN must contain only digits (0-9)",
+		})
+		.refine((val) => !ALL_SAME_DIGIT_REGEX.test(val), {
+			message: "Invalid BVN",
+		}),
+});

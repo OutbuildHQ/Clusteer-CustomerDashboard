@@ -77,6 +77,7 @@ export default function LoginForm() {
 								<FormLabel className="font-medium">Email</FormLabel>
 								<FormControl>
 									<Input
+										type="email"
 										className="h-11"
 										placeholder="Enter your email"
 										{...field}

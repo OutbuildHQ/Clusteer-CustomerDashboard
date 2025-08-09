@@ -7,7 +7,7 @@ export const STABLE_COIN_RATES = {
 	BTC: 2000,
 } as const;
 
-export const MAX_IMAGE_SIZE = 3000;
+export const MAX_IMAGE_SIZE = 7 * 1024 * 1024; // 7MB
 
 export const ALLOWED_IMAGE_FILES = [
 	"image/png",
@@ -18,3 +18,7 @@ export const ALLOWED_IMAGE_FILES = [
 ];
 
 export const PAGE_SIZE = 10;
+
+export const BVN_REGEX = /^\d{11}$/;
+
+export const ALL_SAME_DIGIT_REGEX = /^(\d)\1{10}$/;

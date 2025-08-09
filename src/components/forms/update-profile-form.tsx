@@ -1,3 +1,4 @@
+
 "use client";
 
 import { deleteUserAccount, updateUser } from "@/lib/api/user/actions";
@@ -20,7 +21,7 @@ import {
 	FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import UploadImage from "../upload-image";
+import UploadAvatar from "../upload-avatar";
 
 export type UpdateProfileFormData = z.infer<typeof UpdateProfileFormSchema>;
 
@@ -190,7 +191,7 @@ export default function UpdateProfileForm() {
 					)}
 				/>
 
-				<UploadImage
+				<UploadAvatar
 					username={user?.username}
 					currentAvatar={
 						avatarImage ? URL.createObjectURL(avatarImage) : user!.avatar

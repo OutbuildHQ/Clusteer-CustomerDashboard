@@ -21,6 +21,7 @@ export default function InitializeApp({ children }: Props) {
 
 	const { setUser } = useUserActions();
 	const [hydrated, setHydrated] = useState(false);
+
 	useEffect(() => {
 		if (data) {
 			setUser(data);

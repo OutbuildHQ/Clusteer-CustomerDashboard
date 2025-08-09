@@ -18,7 +18,7 @@ export default function Page() {
 					ensures that Niply remains a safe and reliable platform for all users,
 					and also enables you to enjoy an enhanced range of features and
 					services."
-				link="#"
+				link="/identity-verification"
 			/>
 			<section className="mt-5 lg:mt-20">
 				<header>

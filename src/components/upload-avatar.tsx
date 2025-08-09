@@ -21,9 +21,7 @@ export default function UploadAvatar({
 
 	const onUploadContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		e.stopPropagation();
-		if (e.target === uploadContainerRef.current) {
-			fileInputRef.current?.click();
-		}
+		fileInputRef.current?.click();
 	};
 
 	const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

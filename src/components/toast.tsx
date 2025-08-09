@@ -1,7 +1,20 @@
-import React, { FC, SVGProps } from "react";
-import { toast, ToastOptions } from "sonner";
 import { X } from "lucide-react";
+import React, { FC, SVGProps } from "react";
+import { ToastClassnames, toast } from "sonner";
 import { Button } from "./ui/button";
+
+interface ToastOptions {
+	className?: string;
+	closeButton?: boolean;
+	descriptionClassName?: string;
+	style?: React.CSSProperties;
+	cancelButtonStyle?: React.CSSProperties;
+	actionButtonStyle?: React.CSSProperties;
+	duration?: number;
+	unstyled?: boolean;
+	classNames?: ToastClassnames;
+	closeButtonAriaLabel?: string;
+}
 
 // =======================
 // Icon Components

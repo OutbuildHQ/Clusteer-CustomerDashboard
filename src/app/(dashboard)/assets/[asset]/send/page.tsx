@@ -20,7 +20,7 @@ export default async function Page({
 	return (
 		<section className="mt-8.5 lg:mt-10">
 			<header>
-				<h1 className="font-bold text-3xl capitalize">Receive {assetName}</h1>
+				<h1 className="font-bold text-3xl capitalize">Send {assetName}</h1>
 			</header>
 			<div className="flex flex-col xl:flex-row xl:gap-x-[60px]">
 				<div>
@@ -59,7 +59,7 @@ export default async function Page({
 							<div className="rounded-full bg-real-black size-6 text-white text-center">
 								2
 							</div>
-							<span className="font-bold text-sm">Deposit address</span>
+							<span className="font-bold text-sm">Withdrawal address</span>
 						</div>
 						<div className="relative px-2.5 mt-3">
 							<div className="bg-[#F2F2F0] border border-[#0000004D] rounded-2xl p-5 flex flex-col lg:flex-row gap-x-10">
@@ -88,11 +88,13 @@ export default async function Page({
 							</div>
 							<div className="mt-4.5 py-5 border-b border-[#00000066] space-y-2.5">
 								<div className="flex">
-									<p className="opacity-60 text-sm">Minimum deposit amount</p>
+									<p className="opacity-60 text-sm">
+										Minimum withdrawal amount
+									</p>
 									<p className="ml-auto text-sm font-medium">0.001 USDT</p>
 								</div>
 								<div className="flex">
-									<p className="opacity-60 text-sm">Deposit confirmation</p>
+									<p className="opacity-60 text-sm">Withdrawal confirmation</p>
 									<p className="ml-auto text-sm font-medium">
 										15 network confirmations
 									</p>
@@ -111,43 +113,17 @@ export default async function Page({
 									stroke="#FE754B"
 								/>
 								<p className="text-[#FE754B] text-xs">
-									Minimum deposit amount: 0.001 USDT. Any deposits less than the
-									minimum will not be credited or refunded
+									Minimum withdrawal amount: 0.001 USDT. Any deposits less than
+									the minimum will not be credited or refunded
 								</p>
 							</div>
 						</div>
 					</div>
 				</div>
-
-				<div className="mt-8.5 space-y-2.5 text-sm px-4 py-5 bg-[#F2F2F0] rounded-2xl xl:max-w-[317px] h-fit">
-					<div className="flex items-center gap-x-2.5">
-						<Image
-							src="/assets/icons/lightbulb.svg"
-							alt="lightbulb icon"
-							width={24}
-							height={24}
-						/>
-						<span className="font-semibold">Tips</span>
-					</div>
-					<div className="space-y-1.5">
-						<p>
-							Do not deposit assets other than USDT, as doing so may result in
-							the irretrievability of the deposited assets.
-						</p>
-						<p>
-							Deposits below the minimum amount will not be credited and cannot
-							be refunded.
-						</p>
-						<p>
-							Ensure your device is secure to prevent intrusions or leakage of
-							information.
-						</p>
-					</div>
-				</div>
 			</div>
 
 			<div className="mt-8.5 xl:mt-[73px] pt-11 xl:pt-0 border-t xl:border-t-0 border-[#00000066]">
-				<h2 className="text-2xl font-semibold">Receive History</h2>
+				<h2 className="text-2xl font-semibold">Withdrawal History</h2>
 			</div>
 		</section>
 	);

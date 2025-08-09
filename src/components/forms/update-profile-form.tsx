@@ -1,4 +1,3 @@
-
 "use client";
 
 import { deleteUserAccount, updateUser } from "@/lib/api/user/actions";
@@ -30,8 +29,11 @@ export default function UpdateProfileForm() {
 
 	const [avatarImage, setAvatarImage] = useState<File>(null!);
 
+	const [isUpdated, setIsUpdated] = useState(false);
+
 	const handleImageSelect = useCallback((file: File) => {
 		setAvatarImage(file);
+		setIsUpdated(true);
 	}, []);
 
 	const queryClient = useQueryClient();
@@ -46,6 +48,16 @@ export default function UpdateProfileForm() {
 			queryClient.setQueryData(["user"], newUser);
 
 			return { prevUser };
+		},
+		onSuccess: () => {
+			form.reset({
+				displayName: `${user?.firstName} ${user?.lastName}`,
+				username: user?.username,
+				email: user?.email,
+				phoneNo: user?.phone,
+			});
+			setAvatarImage(null!);
+			setIsUpdated(false);
 		},
 		onError: (err, updatedTodo, context) => {
 			queryClient.setQueryData(["user"], context?.prevUser);
@@ -245,7 +257,11 @@ export default function UpdateProfileForm() {
 						<Button
 							type="submit"
 							variant="outline"
-							disabled={!form.formState.isDirty || isFormInvalid || isBusy}
+							disabled={
+								(!form.formState.isDirty && !isUpdated) ||
+								isFormInvalid ||
+								isBusy
+							}
 							className="p-0 text-sm font-semibold h-10 px-3.5 gradient-border bg-[#11C211] border-[#0a0d120d] text-white"
 						>
 							{isUpdating ? "Saving..." : "Save"}

@@ -201,6 +201,12 @@
 	}
 }
 
+img {
+	user-select: none; /* Prevents text/image selection */
+	-webkit-user-drag: none; /* Prevents dragging in WebKit browsers */
+	pointer-events: none; /* (Optional) disables mouse interaction */
+}
+
 button {
 	cursor: pointer;
 }

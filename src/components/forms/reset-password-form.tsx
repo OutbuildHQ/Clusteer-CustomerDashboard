@@ -1,9 +1,12 @@
 "use client";
 
+import { resetPassword } from "@/lib/api/auth";
 import { ResetPasswordFormSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { ChevronRight, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import PasswordInput from "../password-input";
@@ -16,17 +19,15 @@ import {
 	FormLabel,
 	FormMessage,
 } from "../ui/form";
-import { resetPassword } from "@/lib/api/auth";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { Toast } from "../toast";
 
-export type ResetPasswordFormData = z.infer<typeof ResetPasswordFormSchema>;
+type ResetPasswordFormData = z.infer<typeof ResetPasswordFormSchema>;
+export type ResetPasswordPayload = ResetPasswordFormData & { token: string };
 
-export default function ResetPasswordForm() {
+export default function ResetPasswordForm({ token }: { token: string }) {
 	const form = useForm<ResetPasswordFormData>({
 		resolver: zodResolver(ResetPasswordFormSchema),
 		defaultValues: {
-			oldPassword: "",
 			newPassword: "",
 		},
 	});
@@ -35,12 +36,15 @@ export default function ResetPasswordForm() {
 
 	const { isPending, mutate } = useMutation({
 		mutationFn: resetPassword,
-		onSuccess: () => router.push("/"),
+		onSuccess: () => {
+			Toast.success("Password successfully reset. You can now log in.");
+			router.push("/login");
+		},
 	});
 
 	const onSubmit = (data: ResetPasswordFormData) => {
-		mutate(data);
-		console.log(data);
+		const payload = { ...data, token };
+		mutate(payload);
 	};
 
 	return (
@@ -49,20 +53,6 @@ export default function ResetPasswordForm() {
 				onSubmit={form.handleSubmit(onSubmit)}
 				className="space-y-6 w-full p-5 form-border rounded-2xl"
 			>
-				<FormField
-					control={form.control}
-					name="oldPassword"
-					render={({ field }) => (
-						<FormItem className="gap-1.5">
-							<FormLabel className="font-medium">Old Password</FormLabel>
-							<FormControl>
-								<PasswordInput {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-
 				<FormField
 					control={form.control}
 					name="newPassword"
@@ -88,7 +78,7 @@ export default function ResetPasswordForm() {
 							Resetting...
 						</>
 					) : (
-						<>Reset Passwor</>
+						<>Reset Password</>
 					)}
 				</Button>
 

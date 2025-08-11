@@ -1,8 +1,18 @@
 import Container from "@/components/container";
 import ResetPasswordForm from "@/components/forms/reset-password-form";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
-export default function Page() {
+export default async function Page({
+	searchParams,
+}: {
+	searchParams: Promise<{ token?: string }>;
+}) {
+	const { token } = await searchParams;
+
+	if (!token) {
+		redirect("/forgot-password");
+	}
 	return (
 		<Container className="mt-[30px] mb-[75px] md:mt-44 text-start flex flex-col md:flex-row justify-center items-center md:items-start gap-x-5 lg:gap-x-24">
 			<div className="max-w-[300px] w-full">
@@ -23,7 +33,7 @@ export default function Page() {
 				</header>
 			</div>
 			<div className="max-w-[400px] w-full mt-[52px] md:mt-0">
-				<ResetPasswordForm />
+				<ResetPasswordForm token={token} />
 			</div>
 		</Container>
 	);

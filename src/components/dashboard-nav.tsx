@@ -18,9 +18,10 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import Container from "./container";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge } from "./ui/badge";
 import { NavUser } from "./nav-user";
+import { usePathname } from "next/navigation";
 
 const NAVLINKS = [
 	{ title: "home", icon: "/assets/icons/home.svg", to: "/" },
@@ -43,6 +44,12 @@ const NAVLINKS_EXTRA = [
 
 function MobileNav() {
 	const [openSheet, setOpenSheet] = useState(false);
+
+	const pathname = usePathname();
+
+	useEffect(() => {
+		setOpenSheet(false);
+	}, [pathname]);
 
 	return (
 		<nav className="lg:hidden">
@@ -74,73 +81,70 @@ function MobileNav() {
 					</SheetTrigger>
 					<SheetContent
 						side="left"
-						className="w-[280px] p-0"
+						className="w-[292px] p-0 pt-5 h-full"
 					>
-						<div className="pt-5 h-full bg-white">
-							<div className="px-5">
-								<Image
-									src="/assets/icons/logo_with_name.svg"
-									alt="Clusteer logo"
-									width={139}
-									height={32}
-								/>
-							</div>
-							<div className="px-4">
-								<ul className="mt-20 flex flex-col gap-y-1">
-									{NAVLINKS.map((navItem) => (
-										<li key={navItem.title}>
-											<Link
-												onClick={() => setOpenSheet(false)}
-												href={navItem.to}
-												className="flex gap-x-2 items-center font-semibold text-base text-[#414651] capitalize py-2 px-3 hover:bg-[#FAFAFA] rounded-md"
-											>
-												<Image
-													src={navItem.icon || "/placeholder.svg"}
-													alt={`${navItem.title} icon`}
-													width={22}
-													height={22}
-												/>
-												{navItem.title}
-											</Link>
-										</li>
-									))}
-								</ul>
-								<hr className="my-2.5 bg-[#E9EAEB]" />
-								<ul className="flex flex-col gap-y-1">
-									<li>
+						<div className="px-5">
+							<Image
+								src="/assets/icons/logo_with_name.svg"
+								alt="Clusteer logo"
+								width={139}
+								height={32}
+							/>
+						</div>
+						<div className="px-4">
+							<ul className="mt-20 flex flex-col gap-y-1">
+								{NAVLINKS.map((navItem) => (
+									<li key={navItem.title}>
 										<Link
-											href="/profile"
-											className="flex gap-x-2 items-center font-semibold text-base text-[#414651] py-2 px-3 hover:bg-[#FAFAFA] rounded-md"
+											href={navItem.to}
+											className="flex gap-x-2 items-center font-semibold text-base text-[#414651] capitalize py-2 px-3 hover:bg-[#FAFAFA] rounded-md"
 										>
 											<Image
-												src="/assets/icons/settings.svg"
-												alt="settings icon"
+												src={navItem.icon || "/placeholder.svg"}
+												alt={`${navItem.title} icon`}
 												width={22}
 												height={22}
 											/>
-											Settings
+											{navItem.title}
 										</Link>
 									</li>
-									<li>
-										<Link
-											href="#"
-											className="flex gap-x-2 items-center font-semibold text-base text-[#414651] py-2 px-3 hover:bg-[#FAFAFA] rounded-md"
-										>
-											<Image
-												src="/assets/icons/support.svg"
-												alt="support icon"
-												width={22}
-												height={22}
-											/>
-											Support
-											<div className="ml-auto border border-[#E9EAEB] py-0.5 px-1.5 rounded-lg flex items-center gap-x-1">
-												<div className="bg-green-500 size-2 rounded-full"></div>
-												<span className="text-sm text-[#414651]">Online</span>
-											</div>
-										</Link>
-									</li>
-								</ul>
-							</div>
+								))}
+							</ul>
+							<hr className="my-2.5 bg-[#E9EAEB]" />
+							<ul className="flex flex-col gap-y-1">
+								<li>
+									<Link
+										href="/profile"
+										className="flex gap-x-2 items-center font-semibold text-base text-[#414651] py-2 px-3 hover:bg-[#FAFAFA] rounded-md"
+									>
+										<Image
+											src="/assets/icons/settings.svg"
+											alt="settings icon"
+											width={22}
+											height={22}
+										/>
+										Settings
+									</Link>
+								</li>
+								<li>
+									<Link
+										href="#"
+										className="flex gap-x-2 items-center font-semibold text-base text-[#414651] py-2 px-3 hover:bg-[#FAFAFA] rounded-md"
+									>
+										<Image
+											src="/assets/icons/support.svg"
+											alt="support icon"
+											width={22}
+											height={22}
+										/>
+										Support
+										<div className="ml-auto border border-[#E9EAEB] py-0.5 px-1.5 rounded-lg flex items-center gap-x-1">
+											<div className="bg-green-500 size-2 rounded-full"></div>
+											<span className="text-sm text-[#414651]">Online</span>
+										</div>
+									</Link>
+								</li>
+							</ul>
 						</div>
 					</SheetContent>
 				</Sheet>

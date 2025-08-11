@@ -1,8 +1,9 @@
 "use client";
 
 import { PaymentFormSchema } from "@/lib/validation";
+import { MODAL_IDS, useModalActions } from "@/store/modal";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import {
@@ -15,7 +16,6 @@ import {
 	FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { MODAL_IDS, useModalActions } from "@/store/modal";
 
 type PaymentFormType = z.infer<typeof PaymentFormSchema>;
 
@@ -31,8 +31,7 @@ export default function PaymentForm() {
 
 	const { openModal } = useModalActions();
 
-	const onSubmit = (values: FieldValues) => {
-		console.log(values);
+	const onSubmit = () => {
 		openModal(MODAL_IDS.SUCCESS);
 	};
 

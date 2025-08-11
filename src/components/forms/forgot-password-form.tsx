@@ -1,11 +1,14 @@
 "use client";
 
+import { forgotPassword } from "@/lib/api/auth";
 import { ForgotPasswordFormSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronRight } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { ChevronRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Toast } from "../toast";
 import { Button } from "../ui/button";
 import {
 	Form,
@@ -21,22 +24,20 @@ export type ForgotPasswordFormData = z.infer<typeof ForgotPasswordFormSchema>;
 
 export default function ForgotPasswordForm() {
 	const form = useForm<ForgotPasswordFormData>({
+		mode: "onChange",
 		resolver: zodResolver(ForgotPasswordFormSchema),
 		defaultValues: {
 			email: "",
 		},
 	});
 
-	// const router = useRouter();
-
-	// const { isPending, mutate } = useMutation({
-	// 	mutationFn: resetPassword,
-	// 	onSuccess: () => router.push("/"),
-	// });
+	const { isPending, mutate } = useMutation({
+		mutationFn: forgotPassword,
+		onSuccess: () => Toast.success("A reset link has  been sent"),
+	});
 
 	const onSubmit = (data: ForgotPasswordFormData) => {
-		// mutate(data);
-		console.log(data);
+		mutate(data);
 	};
 	return (
 		<Form {...form}>
@@ -63,18 +64,17 @@ export default function ForgotPasswordForm() {
 				/>
 				<Button
 					type="submit"
-					// disabled={isPending}
+					disabled={isPending}
 					className="font-mona border-black text-[#111111] bg-light-green border font-semibold text-base shadow-xs hover:bg-muted w-full h-11"
 				>
-					{/* {isPending ? (
+					{isPending ? (
 						<>
 							<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-							Logging In...
+							Sending...
 						</>
 					) : (
-						<>Login</>
-					)} */}
-					Send Reset Link
+						<>Send Reset Link</>
+					)}
 				</Button>
 
 				<Link

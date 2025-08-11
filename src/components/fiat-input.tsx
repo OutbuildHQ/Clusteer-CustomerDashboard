@@ -89,7 +89,7 @@ function FiatInput({ name, control }: UseControllerProps) {
 			<FiatSelector
 				fiat={fiat}
 				setFiat={setFiat}
-				currencies={[fiat]}
+				currencies={CURRENCIES}
 			/>
 		</div>
 	);

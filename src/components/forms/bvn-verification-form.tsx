@@ -18,6 +18,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { useState } from "react";
 
 export type BVNVerificationFormData = z.infer<typeof BVNVerificationFormSchema>;
 
@@ -29,6 +30,12 @@ export default function BVNVerficationForm() {
 			bvn: "",
 		},
 	});
+
+	const [isChecked, setIsChecked] = useState(false);
+
+	const handleCheckedChange = (checked: boolean) => {
+		setIsChecked(!!checked);
+	};
 
 	const onSubmit = (data: BVNVerificationFormData) => {
 		console.log(data);
@@ -90,11 +97,15 @@ export default function BVNVerficationForm() {
 					</ul>
 					<div className="flex gap-x-2.5 p-2.5 rounded-md bg-[#F3F3F3]">
 						<Checkbox
-							id="toggle-2"
-							defaultChecked
+							id="privacy-policy"
+							checked={isChecked}
+							onCheckedChange={handleCheckedChange}
 							className="data-[state=checked]:border-light-green data-[state=checked]:bg-light-green data-[state=checked]:text-white"
 						/>
-						<Label className="font-normal gap-x-1">
+						<Label
+							htmlFor="privacy-policy"
+							className="font-normal gap-x-1"
+						>
 							I have read and accept Clusteer’s
 							<Link
 								href="#"

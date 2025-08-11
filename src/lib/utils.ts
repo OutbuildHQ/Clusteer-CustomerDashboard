@@ -19,3 +19,14 @@ export function formatNumber(num: number = 0, allowDec: boolean): string {
 	formatted = parts.join(".");
 	return formatted;
 }
+
+export function getFormattedDate(date: Date): string {
+	const options: Intl.DateTimeFormatOptions = {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+	};
+
+	const parts = date.toLocaleDateString("en-GB", options).split(" ");
+	return `${parts[0]} ${parts[1]}, ${parts[2]}`;
+}

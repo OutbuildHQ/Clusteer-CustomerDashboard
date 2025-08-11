@@ -57,7 +57,7 @@ export default function UploadAvatar({
 				<div
 					ref={uploadContainerRef}
 					onClick={onUploadContainerClick}
-					className="relative flex flex-col items-center border-2 border-[#A6E615] w-full rounded-[12px] py-4 px-6 text-sm text-center cursor-pointer"
+					className="relative flex flex-col items-center border-2 border-[#A6E615] w-full rounded-xl py-4 px-6 text-sm text-center cursor-pointer"
 				>
 					<Image
 						className="size-10"

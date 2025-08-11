@@ -22,7 +22,7 @@ export default function Page() {
 			/>
 			<section className="mt-5 lg:mt-20">
 				<header>
-					<div className="items-center gap-x-1.5 p-2.5 mb-1.5 hidden lg:flex">
+					<div className="items-center gap-x-1.5 py-2.5 mb-1.5 hidden lg:flex">
 						<div className="flex items-center gap-x-1.5">
 							<div className="relative">
 								<Avatar className="size-10">
@@ -56,7 +56,7 @@ export default function Page() {
 						</Button>
 					</div>
 				</header>
-				<div className="mt-5 lg:mt-6.5 flex flex-wrap gap-[27px] lg:gap-8 xl:gap-14 pb-14.5">
+				<div className="mt-5 lg:mt-6.5 flex flex-wrap justify-between gap-[27px] lg:gap-8 xl:gap-14 pb-14.5">
 					{CURRENCIES.map((item) => (
 						<Link
 							key={item.currency}

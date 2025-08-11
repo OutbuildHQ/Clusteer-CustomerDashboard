@@ -13,7 +13,7 @@ export default function RealTimeRates() {
 	}
 
 	return (
-		<div className="flex gap-x-4 lg:gap-x-12 justify-between items-center font-avenir-next">
+		<div className="flex gap-x-4 sm:gap-x-6 lg:gap-x-12 justify-between items-center font-avenir-next">
 			<div>
 				<p className="text-sm sm:text-base font-medium text-[#414651] mb-2.5">
 					Rates (Real-time update)

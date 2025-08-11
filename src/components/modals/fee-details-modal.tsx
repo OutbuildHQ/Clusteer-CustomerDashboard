@@ -1,5 +1,6 @@
 import { MODAL_IDS, useModalActions } from "@/store/modal";
 import { XIcon } from "lucide-react";
+import { useState } from "react";
 import ModalWrapper from "../modal-wrapper";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
@@ -14,6 +15,11 @@ import { Label } from "../ui/label";
 
 export default function FeeDetailsModal() {
 	const { openModal, closeModal } = useModalActions();
+	const [isChecked, setIsChecked] = useState(false);
+
+	const handleCheckedChange = (checked: boolean) => {
+		setIsChecked(!!checked);
+	};
 
 	return (
 		<ModalWrapper modalID={MODAL_IDS.FEE_DETAILS}>
@@ -37,7 +43,12 @@ export default function FeeDetailsModal() {
 				</DialogDescription>
 			</DialogHeader>
 			<div className="flex items-center gap-x-2.5">
-				<Checkbox id="terms" />
+				<Checkbox
+					id="terms"
+					checked={isChecked}
+					onCheckedChange={handleCheckedChange}
+					className="data-[state=checked]:border-light-green data-[state=checked]:bg-light-green data-[state=checked]:text-white"
+				/>
 				<Label
 					htmlFor="terms"
 					className="text-[#008000] text-base font-normal"
@@ -46,19 +57,20 @@ export default function FeeDetailsModal() {
 				</Label>
 			</div>
 			<DialogFooter className="justify-end gap-x-2.5">
-				<DialogClose onClick={closeModal}>
-					<Button
-						type="button"
-						variant="outline"
-						className="rounded-[100px] font-medium h-[38px] px-5 text-[15px]"
-					>
-						Cancel
-					</Button>
-				</DialogClose>
+				<Button
+					type="button"
+					onClick={closeModal}
+					variant="outline"
+					className="rounded-[100px] font-medium h-[38px] px-5 text-[15px]"
+				>
+					Cancel
+				</Button>
+
 				<Button
 					type="button"
 					onClick={() => openModal(MODAL_IDS.TRANSACTION_SUMMARY)}
 					className="bg-[#21241D] rounded-[100px] font-medium h-[38px] px-5 text-[15px]"
+					disabled={!isChecked}
 				>
 					Confirm
 				</Button>

@@ -66,7 +66,7 @@ export default async function Page({
 						<span className="font-medium text-2xl">Convert</span>
 					</Link>
 					<Link
-						href="#"
+						href={`/assets/${assetName}/send`}
 						className="inline-block"
 					>
 						<div className="flex items-center justify-center bg-[#F0EBE6] size-16 rounded-full mx-auto mb-4">
@@ -75,7 +75,7 @@ export default async function Page({
 								size={40}
 							/>
 						</div>
-						<span className="font-medium text-2xl">Convert</span>
+						<span className="font-medium text-2xl">Send</span>
 					</Link>
 				</div>
 			</header>

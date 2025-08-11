@@ -69,7 +69,7 @@ export default function NINVerificationForm() {
 								<div
 									ref={uploadContainerRef}
 									onClick={onUploadContainerClick}
-									className="relative flex flex-col items-center border-2 border-[#EAECF0] w-full rounded-[12px] py-4 px-6 text-sm text-center cursor-pointer"
+									className="relative flex flex-col items-center border-2 border-[#EAECF0] w-full rounded-xl py-4 px-6 text-sm text-center cursor-pointer"
 								>
 									<Image
 										className="size-10"
@@ -109,7 +109,7 @@ export default function NINVerificationForm() {
 				/>
 
 				{selectedFile && (
-					<div className="min-h-[72px] grid grid-cols-[70%_auto] mt-4 border-2 border-[#EAECF0] rounded-[12px] overflow-hidden">
+					<div className="min-h-[72px] grid grid-cols-[70%_auto] mt-4 border-2 border-[#EAECF0] rounded-xl overflow-hidden">
 						<div className="flex items-center p-4 gap-x-4 bg-[#F3F3F3] h-full font-inter text-sm">
 							<Image
 								src="/assets/icons/upload_file.svg"

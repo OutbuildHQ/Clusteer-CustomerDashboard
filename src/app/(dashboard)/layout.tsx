@@ -1,6 +1,8 @@
 import BreadcrumbNav from "@/components/breadcrumb-nav";
 import DashboardNav from "@/components/dashboard-nav";
 import InitializeApp from "@/components/initialize-app";
+import Modals from "@/components/modals";
+import UserBanner from "@/components/user-banner";
 
 export default function DashboardLayout({
 	children,
@@ -9,17 +11,17 @@ export default function DashboardLayout({
 }>) {
 	return (
 		<InitializeApp>
-			<div className="relative h-full min-h-[100dvh] bg-[#FAFAFA] lg:grid lg:grid-cols-[250px_auto] xl:grid-cols-[292px_auto] gap-x-11 xl:gap-14.5 lg:pr-4">
-				<div className="lg:pt-2 lg:pl-4 h-full">
-					<DashboardNav />
-				</div>
+			<div className="relative h-full min-h-[100dvh] lg:grid lg:grid-cols-[250px_auto] xl:grid-cols-[292px_auto] gap-x-9 xl:gap-14.5 lg:pr-4">
+				<DashboardNav />
 				<div className="lg:max-w-[953px] xl:max-w-[1024px] px-4">
-					<div className="mt-1.5 lg:mt-10">
+					<div className="mt-1.5 lg:mt-10 mb-5 lg:mb-0">
+						<UserBanner />
 						<BreadcrumbNav />
 					</div>
 					{children}
 				</div>
 			</div>
+			<Modals />
 		</InitializeApp>
 	);
 }

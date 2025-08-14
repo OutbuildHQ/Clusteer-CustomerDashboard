@@ -38,8 +38,6 @@ const useFCMToken = () => {
 
 				await updateFCMToken({ fcmToken: token });
 
-				console.log(token);
-
 				setFcmToken(token);
 			} catch (err) {
 				console.error("Error retrieving FCM token:", err);

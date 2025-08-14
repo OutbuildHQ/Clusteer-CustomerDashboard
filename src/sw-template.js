@@ -22,30 +22,6 @@ firebase.initializeApp(firebaseConfig);
 // Retrieve Firebase Messaging instance
 const messaging = firebase.messaging();
 
-self.addEventListener("push", (event) => {
-	let data = {};
-
-	if (event.data) {
-		try {
-			data = event.data.json();
-		} catch (e) {
-			console.error("Error parsing push data", e);
-		}
-	}
-
-	const title = data.notification?.title || data.data?.title || "Default Title";
-	const options = {
-		body:
-			data.notification?.body || data.data?.body || "You have a new message",
-		icon: data.notification?.icon || "/default-icon.png",
-		data: data.data || {},
-	};
-
-	console.log("Push received:", data);
-
-	event.waitUntil(self.registration.showNotification(title, options));
-});
-
 // Handle background messages
 messaging.onBackgroundMessage((payload) => {
 	console.log(

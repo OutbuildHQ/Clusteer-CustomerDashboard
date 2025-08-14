@@ -5,6 +5,7 @@ import { useUserActions } from "@/store/user";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { ReactNode, useEffect, useState } from "react";
+import NotificationPermission from "./notification-permission";
 
 interface Props {
 	children: ReactNode;
@@ -44,35 +45,10 @@ export default function InitializeApp({ children }: Props) {
 			</div>
 		);
 
-	return <>{children}</>;
-
-	// return (
-	// 	<AnimatePresence mode="popLayout">
-	// 		{isPending ? (
-	// 			<motion.section
-	// 				initial={{ opacity: 0 }}
-	// 				animate={{ opacity: 1 }}
-	// 				exit={{ opacity: 0 }}
-	// 				transition={{ duration: 1, ease: "easeOut" }}
-	// 				className="w-screen h-screen flex items-center justify-center bg-white"
-	// 			>
-	// 				<div className="flex items-center gap-2 font-medium animate-pulse">
-	// 					<div className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-	// 						<GalleryVerticalEnd className="size-6" />
-	// 					</div>
-	// 					<span className="text-lg">X-Aggregator</span>
-	// 				</div>
-	// 			</motion.section>
-	// 		) : (
-	// 			<motion.section
-	// 				initial={{ opacity: 0 }}
-	// 				animate={{ opacity: 1 }}
-	// 				exit={{ opacity: 0 }}
-	// 				transition={{ duration: 1, ease: "easeOut" }}
-	// 			>
-	// 				{children}
-	// 			</motion.section>
-	// 		)}
-	// 	</AnimatePresence>
-	// );
+	return (
+		<>
+			{children}
+			<NotificationPermission />
+		</>
+	);
 }

@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { ReactNode, useEffect, useState } from "react";
 import NotificationPermission from "./notification-permission";
+import { getUserWallet } from "@/lib/api/wallet/queries";
+import { useWalletActions } from "@/store/wallet";
 
 interface Props {
 	children: ReactNode;
@@ -20,17 +22,25 @@ export default function InitializeApp({ children }: Props) {
 		queryFn: getUserInfo,
 	});
 
+	const { data: walletData, isPending: isWalletPending } = useQuery({
+		queryKey: ["wallet"],
+		queryFn: getUserWallet,
+	});
+
 	const { setUser } = useUserActions();
+	const { setWallets } = useWalletActions();
+
 	const [hydrated, setHydrated] = useState(false);
 
 	useEffect(() => {
-		if (data) {
+		if (data && walletData) {
 			setUser(data);
+			setWallets(walletData.walletAssets);
 			setHydrated(true);
 		}
-	}, [data, setUser]);
+	}, [data, walletData, setUser, setWallets]);
 
-	if (isPending || !hydrated)
+	if (isPending || isWalletPending || !hydrated)
 		return (
 			<div className="flex justify-center items-center min-h-screen w-full">
 				<div className="mb-10">

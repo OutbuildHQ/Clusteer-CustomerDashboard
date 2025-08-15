@@ -4,9 +4,8 @@ import { TransactionsTable } from "@/components/transactions-table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CURRENCIES } from "@/lib/data";
+import WalletList from "@/components/wallet-list";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function Page() {
 	return (
@@ -56,30 +55,7 @@ export default function Page() {
 						</Button>
 					</div>
 				</header>
-				<div className="mt-5 lg:mt-6.5 flex flex-wrap justify-between gap-[27px] lg:gap-8 xl:gap-14 pb-14.5">
-					{CURRENCIES.map((item) => (
-						<Link
-							key={item.currency}
-							href={`assets/${item.currency}`}
-							className="shrink-0 w-full px-4 py-2.5 rounded-[20px] sm:max-w-[280px] h-[145px] lg:h-[215px] bg-[#F2F2F0] flex flex-col"
-						>
-							<div className="flex items-center mb-[17px]">
-								<Image
-									src={item.icon}
-									alt="USDT logo"
-									width={63}
-									height={63}
-								/>
-								<span className="inline-block font-medium text-2xl ml-[17px] uppercase">
-									{item.currency}
-								</span>
-							</div>
-							<span className="mt-auto font-bold text-2xl py-2.5">
-								{item.rate.toPrecision(3)}
-							</span>
-						</Link>
-					))}
-				</div>
+				<WalletList />
 			</section>
 			<section className="mt-14.5">
 				<BuySellCrypto />

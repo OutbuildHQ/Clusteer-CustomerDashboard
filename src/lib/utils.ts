@@ -11,7 +11,10 @@ export function parseNumber(str: string): number | null {
 	return isNaN(num) ? null : num;
 }
 
-export function formatNumber(num: number = 0, allowDec: boolean): string {
+export function formatNumber(
+	num: number = 0,
+	allowDec: boolean = true
+): string {
 	if (isNaN(num)) return "";
 	let formatted = allowDec ? num.toString() : Math.floor(num).toString();
 	const parts = formatted.split(".");

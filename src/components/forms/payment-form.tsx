@@ -47,7 +47,7 @@ export default function PaymentForm() {
 					render={({ field }) => (
 						<FormItem className="gap-1.5">
 							<FormLabel className="font-bold text-[#21241D]">
-								Account Number/ NUBAN
+								Account Number / NUBAN
 							</FormLabel>
 							<FormDescription className="text-[#344054] font-medium">
 								Ensure your account detail is accurate to avoid loss due to

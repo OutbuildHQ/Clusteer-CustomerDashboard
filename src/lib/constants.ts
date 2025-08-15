@@ -1,3 +1,5 @@
+import { WalletCurrency } from "@/store/wallet";
+
 export const MINIMUM_VALUE = 50_000;
 export const MAXIMUM_VALUE = 100_000_000;
 
@@ -22,3 +24,11 @@ export const PAGE_SIZE = 10;
 export const BVN_REGEX = /^\d{11}$/;
 
 export const ALL_SAME_DIGIT_REGEX = /^(\d)\1{10}$/;
+
+export const WALLET_CURRENCY_ICONS: Record<WalletCurrency, string> = {
+	NGN: "/assets/images/naira.svg",
+	TRON: "/assets/icons/tron.svg",
+	SOL: "/assets/icons/solana.svg",
+	ETH: "/assets/icons/ethereum.svg",
+	BSC: "/assets/icons/binance-smart-chain.svg",
+};

@@ -205,7 +205,9 @@ export function TransactionsTable() {
 	return (
 		<div className="w-full font-inter border-t border-t-[#21241D] border border-[#EAECF0] shadow-[0px_1px_3px_0px_#1018281A]">
 			<div className="py-5 px-6 border-b border-[#EAECF0]">
-				<h3 className="text-[#101828] text-2xl font-semibold">Latest Order</h3>
+				<h3 className="text-[#101828] text-2xl font-semibold">
+					Latest Transactions
+				</h3>
 			</div>
 			<div className="flex items-center py-3 px-4">
 				<div className="flex rounded-xl border border-[#D0D5DD] overflow-hidden">

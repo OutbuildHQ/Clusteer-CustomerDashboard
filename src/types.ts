@@ -25,7 +25,7 @@ export interface ITransaction {
 	dateCreated: string;
 }
 
-export interface IResponse<T> {
+export interface IResponse<T = null> {
 	status: boolean;
 	message: string;
 	data: T;

@@ -22,6 +22,7 @@ import {
 	FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { useUserActions } from "@/store/user";
 
 export type LoginFormType = z.infer<typeof LoginFormSchema>;
 
@@ -34,11 +35,18 @@ export default function LoginForm() {
 		},
 	});
 
+	const { setUser } = useUserActions();
+
 	const router = useRouter();
 
 	const { isPending, mutate } = useMutation({
 		mutationFn: loginUser,
-		onSuccess: () => router.push("/"),
+		onSuccess: (res) => {
+			if (res.message === "Please enter OTP") {
+				setUser(res.data);
+				router.push("/verify-otp");
+			} else router.push("/");
+		},
 	});
 
 	const onSubmit = (data: LoginFormType) => {

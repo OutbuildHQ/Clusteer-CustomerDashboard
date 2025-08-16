@@ -15,7 +15,10 @@ export function middleware(request: NextRequest) {
 		"/signup",
 		"/reset-password",
 		"/change-password",
+		"/verify-otp",
+		"/verify-email",
 	];
+
 	if (publicPaths.includes(pathname)) {
 		return NextResponse.next();
 	}

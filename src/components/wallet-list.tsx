@@ -18,7 +18,7 @@ export default function WalletList() {
 					<Link
 						key={wallet.currency}
 						href={`/assets/${wallet.currency}`}
-						className="shrink-0 w-full px-4 py-2.5 rounded-[20px] sm:max-w-[280px] h-[145px] lg:h-[215px] bg-[#F2F2F0] flex flex-col"
+						className="shrink-0 w-full px-4 py-2.5 rounded-[20px] sm:max-w-[280px] min-h-[145px] lg:h-[215px] bg-[#F2F2F0] flex flex-col"
 					>
 						<div className="flex items-center mb-[17px]">
 							<Image

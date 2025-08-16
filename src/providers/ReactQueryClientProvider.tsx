@@ -13,7 +13,7 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type ErrorResponse = IResponse<null> & { errors: string[] };
+export type ErrorResponse = IResponse & { errors: string[] };
 
 interface CustomMutationMeta extends Record<string, unknown> {
 	skipGlobalErrorHandler?: boolean;

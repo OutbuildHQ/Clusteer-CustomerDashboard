@@ -1,6 +1,6 @@
 "use client";
 
-import { GoogleOTPFormSchema } from "@/lib/validation";
+import { OTPFormSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { useRef } from "react";
@@ -23,7 +23,7 @@ import { verifyGoogleAuthOTP } from "@/lib/api/auth";
 import { Loader2 } from "lucide-react";
 import { useUser } from "@/store/user";
 
-type GoogleOTPFormData = z.infer<typeof GoogleOTPFormSchema>;
+type GoogleOTPFormData = z.infer<typeof OTPFormSchema>;
 
 export default function GoogleAuthForm({
 	onVerificationComplete,
@@ -31,7 +31,7 @@ export default function GoogleAuthForm({
 	onVerificationComplete: () => void;
 }) {
 	const form = useForm<GoogleOTPFormData>({
-		resolver: zodResolver(GoogleOTPFormSchema),
+		resolver: zodResolver(OTPFormSchema),
 		mode: "onChange",
 		defaultValues: {
 			otp: "",

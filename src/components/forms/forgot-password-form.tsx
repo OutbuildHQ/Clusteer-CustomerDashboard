@@ -78,7 +78,7 @@ export default function ForgotPasswordForm() {
 				</Button>
 
 				<Link
-					href="/signup"
+					href="/login"
 					className="text-center lg:mt-2 mx-auto block"
 				>
 					<span className="text-dark-green font-semibold">Back to Log in</span>

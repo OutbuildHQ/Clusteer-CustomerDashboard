@@ -33,8 +33,9 @@ export function NavUser() {
 							<div className="relative">
 								<Avatar className="size-10 rounded-full">
 									<AvatarImage
-										src={"https://github.com/shadcn.png"}
-										alt={user?.firstName}
+										className="object-cover object-center"
+										src={user?.avatar}
+										alt="user avatar"
 									/>
 									<AvatarFallback className="rounded-lg">
 										{user?.firstName?.[0] ?? "U"}

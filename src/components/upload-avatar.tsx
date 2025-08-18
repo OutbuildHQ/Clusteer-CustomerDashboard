@@ -53,6 +53,7 @@ export default function UploadAvatar({
 					<AvatarImage
 						className="object-cover object-center"
 						src={currentAvatar}
+						alt="user avatar"
 					/>
 					{!currentAvatar && (
 						<AvatarFallback>{username ? username[0] : "U"}</AvatarFallback>

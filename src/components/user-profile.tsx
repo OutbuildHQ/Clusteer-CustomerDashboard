@@ -13,7 +13,11 @@ export default function UserProfile() {
 			<div className="flex items-center gap-x-1.5">
 				<div className="relative">
 					<Avatar className="size-10">
-						<AvatarImage src={user?.avatar} />
+						<AvatarImage
+							className="object-cover object-center"
+							src={user?.avatar}
+							alt="user avatar"
+						/>
 						<AvatarFallback>{user?.firstName[0]}</AvatarFallback>
 					</Avatar>
 					<div className="size-2.5 bg-[#12B76A] absolute right-0 bottom-0 z-10 rounded-full border-2 border-white"></div>

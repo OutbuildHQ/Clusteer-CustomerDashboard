@@ -13,7 +13,11 @@ export default function UserBanner() {
 	return (
 		<div className="my-5 flex gap-x-4 lg:hidden">
 			<Avatar className="size-14 border border-[#00000014] bg-[#F5F5F5] text-[#717680]">
-				<AvatarImage src={user?.avatar} />
+				<AvatarImage
+					className="object-cover object-center"
+					src={user?.avatar}
+					alt="user avatar"
+				/>
 				<AvatarFallback>{user?.firstName[0]}</AvatarFallback>
 			</Avatar>
 			<div className="font-inter">

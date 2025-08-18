@@ -177,6 +177,7 @@ export default function UpdateProfileForm() {
 							</FormLabel>
 							<FormControl>
 								<Input
+									disabled
 									className="h-11 border border-[#D5D7DA] rounded-full text-[#181D27] py-2.5 px-3.5 shadow-[0px_1px_2px_0px_#0A0D120D] lg:max-w-[512px]"
 									{...field}
 								/>
@@ -200,6 +201,7 @@ export default function UpdateProfileForm() {
 										stroke="#717680"
 									/>
 									<Input
+										disabled
 										className="p-0 rounded-none h-full border-0 shadow-none"
 										{...field}
 									/>

@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function LoginPage() {
 	return (
-		<Container className="mt-[30px] mb-[75px] md:max-h-screen md:mt-28 text-start flex flex-col md:flex-row justify-center items-center md:items-start gap-x-5 lg:gap-x-24">
+		<Container className="mt-[30px] mb-[75px] md:max-h-screen md:mt-36 text-start flex flex-col md:flex-row justify-center items-center md:items-start gap-x-5 lg:gap-x-24">
 			<div className="max-w-[300px] w-full">
 				<header className="pt-14 md:pt-0 text-center md:text-start">
 					<Image

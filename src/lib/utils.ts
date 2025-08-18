@@ -24,6 +24,8 @@ export function formatNumber(
 }
 
 export function getFormattedDate(date: Date): string {
+	if (isNaN(date.getTime())) return ""; // handle invalid dates safely
+
 	const options: Intl.DateTimeFormatOptions = {
 		day: "numeric",
 		month: "long",

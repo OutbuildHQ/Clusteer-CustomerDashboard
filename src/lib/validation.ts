@@ -80,10 +80,14 @@ export const NINVerificationFormSchema = z.object({
 });
 
 export const UpdateProfileFormSchema = z.object({
-	displayName: z
+	firstName: z
 		.string()
-		.min(2, "Display name must be at least 2 characters")
-		.max(50, "Display name must be at most 50 characters"),
+		.min(2, "First name must be at least 2 characters")
+		.max(50, "First name must be at most 50 characters"),
+	lastName: z
+		.string()
+		.min(2, "Last name must be at least 2 characters")
+		.max(50, "Last name must be at most 50 characters"),
 	username: z
 		.string()
 		.min(3, "Username must be at least 3 characters")
@@ -93,11 +97,10 @@ export const UpdateProfileFormSchema = z.object({
 			"Username can only contain letters, numbers, and underscores"
 		),
 	email: z.string().email("Please enter a valid email address"),
-	phoneNo: z
+	phone: z
 		.string()
 		.length(11, "Phone number must be at must be 11 digits")
 		.regex(/^[0-9+\-() ]+$/, "Invalid phone number format"),
-	// profileImage: IMAGE_SCHEMA,
 });
 
 export const IdentityVerficationFormSchema = z.object({

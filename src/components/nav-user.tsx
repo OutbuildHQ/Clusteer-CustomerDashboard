@@ -37,7 +37,7 @@ export function NavUser() {
 										alt={user?.firstName}
 									/>
 									<AvatarFallback className="rounded-lg">
-										{user?.firstName[0]}
+										{user?.firstName?.[0] ?? "U"}
 									</AvatarFallback>
 								</Avatar>
 								<div className="size-2.5 bg-[#12B76A] absolute right-0 bottom-0 z-10 rounded-full border-2 border-white"></div>

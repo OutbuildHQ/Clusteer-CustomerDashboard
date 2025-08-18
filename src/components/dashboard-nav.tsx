@@ -31,7 +31,11 @@ const NAVLINKS = [
 		icon: "/assets/icons/identity_verification.svg",
 		to: "/identity-verification",
 	},
-	{ title: "transaction history", icon: "/assets/icons/folder.svg", to: "#" },
+	{
+		title: "transaction history",
+		icon: "/assets/icons/folder.svg",
+		to: "/transaction-history",
+	},
 ];
 
 const NAVLINKS_EXTRA = [

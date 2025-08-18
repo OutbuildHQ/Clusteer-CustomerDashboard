@@ -9,6 +9,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
+	TableRowsSkeleton,
 } from "@/components/ui/table";
 import { getAllTransactions } from "@/lib/api/user/queries";
 import { PAGE_SIZE } from "@/lib/constants";
@@ -29,45 +30,6 @@ import {
 import { Search } from "lucide-react";
 import Image from "next/image";
 import * as React from "react";
-
-export const data: ITransaction[] = [
-	{
-		id: 16,
-		user: 3,
-		username: "Bjorn",
-		type: "CRYPTO",
-		title: "CRYPTO PURCHASE",
-		ref: "PUR|20250722212326|978925B36CF14ABDB538|1753219406023",
-		orderNumber: "CLSTR_P2P_P_1753219406021",
-		chain: null,
-		currency: "USDT",
-		amount: 50.5,
-		rate: 1566.7,
-		info: "",
-		flow: "CREDIT",
-		description: "Purchase complete",
-		status: "SUCCESS",
-		dateCreated: "2025-07-22 22:23:28",
-	},
-	{
-		id: 15,
-		user: 3,
-		username: "Bjorn",
-		type: "FIAT",
-		title: "CRYPTO PURCHASE",
-		ref: "CLSTR_WLTDR_1753219406261",
-		orderNumber: "CLSTR_P2P_P_1753219406021",
-		chain: null,
-		currency: "NGN",
-		amount: 79118.55,
-		rate: 1566.7,
-		info: "",
-		flow: "DEBIT",
-		description: "Payment for eth purchase.",
-		status: "SUCCESS",
-		dateCreated: "2025-07-22 22:23:26",
-	},
-];
 
 export const columns: ColumnDef<ITransaction>[] = [
 	{
@@ -159,14 +121,7 @@ export function TransactionsTable() {
 	});
 
 	const { data: transactions, isFetching } = useQuery({
-		queryKey: [
-			"user",
-			"transactions",
-			{
-				pageIndex: pageParams.pageIndex,
-				pageSize: pageParams.pageSize,
-			},
-		],
+		queryKey: ["transactions", pageParams],
 		queryFn: () =>
 			getAllTransactions({
 				page: pageParams.pageIndex,
@@ -176,7 +131,7 @@ export function TransactionsTable() {
 		placeholderData: keepPreviousData,
 	});
 
-	const [data] = React.useState(() => transactions! ?? []);
+	const [data] = React.useState(() => transactions ?? []);
 
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[]
@@ -204,11 +159,11 @@ export function TransactionsTable() {
 
 	return (
 		<div className="w-full font-inter border-t border-t-[#21241D] border border-[#EAECF0] shadow-[0px_1px_3px_0px_#1018281A]">
-			<div className="py-5 px-6 border-b border-[#EAECF0]">
+			{/* <div className="py-5 px-6 border-b border-[#EAECF0]">
 				<h3 className="text-[#101828] text-2xl font-semibold">
 					Latest Transactions
 				</h3>
-			</div>
+			</div> */}
 			<div className="flex items-center py-3 px-4">
 				<div className="flex rounded-xl border border-[#D0D5DD] overflow-hidden">
 					<Button className="rounded-none border-0 h-10">In progress</Button>
@@ -261,7 +216,7 @@ export function TransactionsTable() {
 					</TableHeader>
 					<TableBody>
 						{isFetching ? (
-							<RowsSkeleton
+							<TableRowsSkeleton
 								length={4}
 								columnCount={columns.length}
 							/>
@@ -322,30 +277,5 @@ export function TransactionsTable() {
 				</div>
 			</div>
 		</div>
-	);
-}
-
-function RowsSkeleton({
-	columnCount,
-	length,
-}: {
-	columnCount: number;
-	length: number;
-}) {
-	return (
-		<>
-			{Array.from({ length }).map((_, idx) => (
-				<TableRow
-					key={`loading-row-${idx}`}
-					className="animate-pulse"
-				>
-					{Array.from({ length: columnCount }).map((_, colIdx) => (
-						<TableCell key={colIdx}>
-							<div className="h-[32px] w-full bg-muted rounded" />
-						</TableCell>
-					))}
-				</TableRow>
-			))}
-		</>
 	);
 }

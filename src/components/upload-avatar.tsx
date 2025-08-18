@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface UploadAvatarProps {
 	username?: string;
-	currentAvatar: string;
+	currentAvatar?: string;
 	onImageSelect: (file: File) => void;
 }
 
@@ -50,8 +50,13 @@ export default function UploadAvatar({
 
 			<div className="flex gap-x-5 w-full max-w-[512px]">
 				<Avatar className="size-16 border-[0.75px] border-[#00000014]">
-					<AvatarImage src={currentAvatar} />
-					<AvatarFallback>{username ? username[0] : "User"}</AvatarFallback>
+					<AvatarImage
+						className="object-cover object-center"
+						src={currentAvatar}
+					/>
+					{!currentAvatar && (
+						<AvatarFallback>{username ? username[0] : "U"}</AvatarFallback>
+					)}
 				</Avatar>
 
 				<div

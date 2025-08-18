@@ -1,15 +1,19 @@
 "use client";
 
 import { deleteUserAccount, updateUser } from "@/lib/api/user/actions";
+import { getUserInfo } from "@/lib/api/user/queries";
+import { getFormattedDate } from "@/lib/utils";
 import { UpdateProfileFormSchema } from "@/lib/validation";
-import { useUser } from "@/store/user";
+import { IUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Mail } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { CopyButton } from "../copy-button";
+import { Toast } from "../toast";
 import { Button } from "../ui/button";
 import {
 	Form,
@@ -25,9 +29,12 @@ import UploadAvatar from "../upload-avatar";
 export type UpdateProfileFormData = z.infer<typeof UpdateProfileFormSchema>;
 
 export default function UpdateProfileForm() {
-	const user = useUser();
+	const { data: user, isPending } = useQuery({
+		queryKey: ["user"],
+		queryFn: getUserInfo,
+	});
 
-	const [avatarImage, setAvatarImage] = useState<File>(null!);
+	const [avatarImage, setAvatarImage] = useState<File | null>(null);
 
 	const [isUpdated, setIsUpdated] = useState(false);
 
@@ -36,34 +43,48 @@ export default function UpdateProfileForm() {
 		setIsUpdated(true);
 	}, []);
 
+	const reset = () => {
+		form.reset({ ...user });
+		setAvatarImage(null);
+		setIsUpdated(false);
+	};
+
 	const queryClient = useQueryClient();
 
 	const { isPending: isUpdating, mutate: updateProfile } = useMutation({
 		mutationFn: updateUser,
-		onMutate: async (newUser) => {
+		onMutate: async ({ profile }) => {
 			await queryClient.cancelQueries({ queryKey: ["user"] });
 
-			const prevUser = queryClient.getQueryData(["user"]);
+			const prevUser = queryClient.getQueryData<IUser>(["user"]);
+			if (!prevUser) return { prevUser };
 
-			queryClient.setQueryData(["user"], newUser);
+			queryClient.setQueryData<IUser>(["user"], (old) => {
+				if (!old) return old;
+
+				return {
+					...old,
+					...Object.fromEntries(
+						Object.entries(profile).filter(
+							([, value]) =>
+								value !== "" && value !== null && value !== undefined
+						)
+					),
+				};
+			});
 
 			return { prevUser };
 		},
+
 		onSuccess: () => {
-			form.reset({
-				displayName: `${user?.firstName} ${user?.lastName}`,
-				username: user?.username,
-				email: user?.email,
-				phoneNo: user?.phone,
-			});
-			setAvatarImage(null!);
-			setIsUpdated(false);
+			Toast.success("Profile updated successfully");
 		},
 		onError: (err, updatedTodo, context) => {
 			queryClient.setQueryData(["user"], context?.prevUser);
 		},
 		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: ["user"] });
+			reset();
 		},
 	});
 
@@ -78,15 +99,15 @@ export default function UpdateProfileForm() {
 		mode: "onChange",
 		resolver: zodResolver(UpdateProfileFormSchema),
 		defaultValues: {
-			displayName: `${user?.firstName} ${user?.lastName}`,
+			firstName: user?.firstName,
+			lastName: user?.lastName,
 			username: user?.username,
 			email: user?.email,
-			phoneNo: user?.phone,
-			// ...data,
+			phone: user?.phone,
 		},
 	});
 
-	const isBusy = isDeleting || isUpdating;
+	const isBusy = isDeleting || isUpdating || isPending;
 	const isFormInvalid = !form.formState.isValid;
 
 	const onSubmit = (values: UpdateProfileFormData) => {
@@ -101,12 +122,7 @@ export default function UpdateProfileForm() {
 			updatePayload.avatar = formData;
 		}
 
-		updateProfile(updatePayload, {
-			onSuccess: () => {
-				form.reset(values);
-				setAvatarImage(null!);
-			},
-		});
+		updateProfile(updatePayload);
 	};
 
 	return (
@@ -117,11 +133,29 @@ export default function UpdateProfileForm() {
 			>
 				<FormField
 					control={form.control}
-					name="displayName"
+					name="firstName"
 					render={({ field }) => (
 						<FormItem className="flex flex-col lg:flex-row gap-y-4 lg:gap-x-8 pb-5 border-b border-[#E9EAEB]">
 							<FormLabel className="font-semibold text-[#414651] gap-x-0.5 shrink-0 lg:max-w-[280px] w-full">
-								Display Name <span className="text-[#008000]">*</span>
+								First Name <span className="text-[#008000]">*</span>
+							</FormLabel>
+							<FormControl>
+								<Input
+									className="h-11 border border-[#D5D7DA] rounded-full text-[#181D27] py-2.5 px-3.5 shadow-[0px_1px_2px_0px_#0A0D120D] lg:max-w-[512px]"
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="lastName"
+					render={({ field }) => (
+						<FormItem className="flex flex-col lg:flex-row gap-y-4 lg:gap-x-8 pb-5 border-b border-[#E9EAEB]">
+							<FormLabel className="font-semibold text-[#414651] gap-x-0.5 shrink-0 lg:max-w-[280px] w-full">
+								Last Name <span className="text-[#008000]">*</span>
 							</FormLabel>
 							<FormControl>
 								<Input
@@ -177,7 +211,7 @@ export default function UpdateProfileForm() {
 				/>
 				<FormField
 					control={form.control}
-					name="phoneNo"
+					name="phone"
 					render={({ field }) => (
 						<FormItem className="flex flex-col lg:flex-row gap-y-4 lg:gap-x-8 pb-5 border-b border-[#E9EAEB]">
 							<FormLabel className="font-semibold text-[#414651] gap-x-0.5 lg:max-w-[280px] w-full">
@@ -206,7 +240,7 @@ export default function UpdateProfileForm() {
 				<UploadAvatar
 					username={user?.username}
 					currentAvatar={
-						avatarImage ? URL.createObjectURL(avatarImage) : user!.avatar
+						avatarImage ? URL.createObjectURL(avatarImage) : user?.avatar
 					}
 					onImageSelect={handleImageSelect}
 				/>
@@ -215,16 +249,13 @@ export default function UpdateProfileForm() {
 					<span className="font-semibold lg:max-w-[280px] w-full text-[#414651] gap-x-0.5 text-sm">
 						User ID
 					</span>
-					<div className="flex gap-x-2 py-2.5 px-11.5 ml-auto">
-						<span>{user!.id}</span>
-						<button className="shrink-0">
-							<Image
-								src="/assets/icons/copy.svg"
-								alt="copy icon"
-								width={18}
-								height={18}
-							/>
-						</button>
+					<div className="flex items-center gap-x-2 py-2.5 px-11.5 ml-auto capitalize">
+						<span>{user?.username}</span>
+						<CopyButton
+							value={user?.username}
+							icon="/assets/icons/copy.svg"
+							className="shrink-0 border-0 p-0 size-4.5 hover:bg-transparent"
+						/>
 					</div>
 				</div>
 				<div className="flex  items-center flex-col lg:flex-row gap-y-4 lg:gap-x-8 pb-5 border-b border-[#E9EAEB]">
@@ -232,8 +263,9 @@ export default function UpdateProfileForm() {
 						Registration date
 					</span>
 					<div className="py-2.5 px-11.5 ml-auto">
-						{" "}
-						{new Date(user!.dateJoined).getFullYear()}
+						{getFormattedDate(
+							new Date(user?.dateJoined ? user?.dateJoined : "")
+						)}
 					</div>
 				</div>
 				<div className="flex">
@@ -248,8 +280,10 @@ export default function UpdateProfileForm() {
 					</Button>
 					<div className="ml-auto flex gap-x-3">
 						<Button
+							type="button"
 							variant="outline"
 							disabled={isBusy}
+							onClick={reset}
 							className="p-0 text-sm text-[#414651] font-semibold h-10 px-3.5"
 						>
 							Cancel
@@ -258,9 +292,9 @@ export default function UpdateProfileForm() {
 							type="submit"
 							variant="outline"
 							disabled={
-								(!form.formState.isDirty && !isUpdated) ||
+								isBusy ||
 								isFormInvalid ||
-								isBusy
+								(!form.formState.isDirty && !isUpdated)
 							}
 							className="p-0 text-sm font-semibold h-10 px-3.5 gradient-border bg-[#11C211] border-[#0a0d120d] text-white"
 						>

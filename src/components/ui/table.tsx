@@ -104,6 +104,31 @@ function TableCaption({
 	);
 }
 
+function TableRowsSkeleton({
+	columnCount,
+	length,
+}: {
+	columnCount: number;
+	length: number;
+}) {
+	return (
+		<>
+			{Array.from({ length }).map((_, idx) => (
+				<TableRow
+					key={`loading-row-${idx}`}
+					className="animate-pulse"
+				>
+					{Array.from({ length: columnCount }).map((_, colIdx) => (
+						<TableCell key={colIdx}>
+							<div className="h-[32px] w-full bg-muted rounded" />
+						</TableCell>
+					))}
+				</TableRow>
+			))}
+		</>
+	);
+}
+
 export {
 	Table,
 	TableHeader,
@@ -113,4 +138,5 @@ export {
 	TableRow,
 	TableCell,
 	TableCaption,
+	TableRowsSkeleton,
 };

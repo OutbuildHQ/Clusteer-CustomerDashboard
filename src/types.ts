@@ -25,6 +25,22 @@ export interface ITransaction {
 	dateCreated: string;
 }
 
+export interface IOrder {
+	id: number;
+	user: number;
+	number: string;
+	type: string;
+	chain: string;
+	ref: string;
+	amount: number;
+	rate: number;
+	paymentMethod: string;
+	note: string;
+	status: string;
+	dateOrdered: string;
+	dateSettled: string | null;
+}
+
 export interface IResponse<T = null> {
 	status: boolean;
 	message: string;
@@ -71,4 +87,19 @@ export interface IUser {
 export type Auth2FARequest = {
 	twoFactorSecret: string;
 	twoFactorQR: string;
+};
+
+export type PageParams = {
+	page: number;
+	size: number;
+};
+
+export type QueryParams = {
+	size?: number;
+	currency?: string;
+	type?: "FIAT" | "CRYPTO";
+	flow?: "DEBIT" | "CREDIT";
+	status?: "SUCCESS" | "FAILED" | "PENDING";
+	startDate?: string;
+	endDate?: string;
 };

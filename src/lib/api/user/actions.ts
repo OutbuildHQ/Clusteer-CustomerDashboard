@@ -13,7 +13,11 @@ async function updateUserProfile(payload: UpdateProfileFormData) {
 
 async function updateUserAvatar(payload: FormData) {
 	try {
-		const res = await apiClient.put("/user/avatar/update", payload);
+		const res = await apiClient.put("/user/avatar/update", payload, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
 		return res.data;
 	} catch (error) {
 		throw error as AxiosError;
@@ -26,11 +30,17 @@ export async function updateUser(data: {
 }) {
 	const { profile, avatar } = data;
 
-	const promises = [updateUserProfile(profile)];
+	const promises = [];
+
+	if (profile) {
+		promises.push(updateUserProfile(profile));
+	}
 
 	if (avatar) {
 		promises.push(updateUserAvatar(avatar));
 	}
+
+	if (promises.length === 0) return;
 
 	await Promise.all(promises);
 }

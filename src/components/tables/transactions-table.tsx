@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
+	PaginationControls,
 	Table,
 	TableBody,
 	TableCell,
@@ -12,24 +12,24 @@ import {
 	TableRowsSkeleton,
 } from "@/components/ui/table";
 import { getAllTransactions } from "@/lib/api/user/queries";
-import { PAGE_SIZE } from "@/lib/constants";
+import { PAGE_SIZE, TRANSACTION_STATUS_FILTERS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ITransaction } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
 	ColumnDef,
 	ColumnFiltersState,
-	VisibilityState,
 	flexRender,
 	getCoreRowModel,
+	getFacetedRowModel,
+	getFacetedUniqueValues,
 	getFilteredRowModel,
-	getPaginationRowModel,
-	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
 import { Search } from "lucide-react";
 import Image from "next/image";
 import * as React from "react";
+import { TableStatusFilter } from "../table-status-filter";
 
 export const columns: ColumnDef<ITransaction>[] = [
 	{
@@ -63,7 +63,7 @@ export const columns: ColumnDef<ITransaction>[] = [
 					<p className="font-medium">
 						{amount.toLocaleString()} {currency}
 					</p>
-					<p className="text-[#475467]">{rate.toLocaleString()} NGN</p>
+					<p className="text-[#475467]">{rate} NGN</p>
 				</div>
 			);
 		},
@@ -82,7 +82,10 @@ export const columns: ColumnDef<ITransaction>[] = [
 			return (
 				<div className="font-medium flex flex-wrap items-center gap-x-1 font-inter">
 					<p className="text-wrap">{row.original.orderNumber}</p>
-					<button className="shrink-0">
+					<button
+						type="button"
+						className="shrink-0"
+					>
 						<Image
 							src="/assets/icons/copy.svg"
 							alt="copy icon"
@@ -95,85 +98,92 @@ export const columns: ColumnDef<ITransaction>[] = [
 		},
 	},
 	{
-		id: "actions",
+		id: "status",
+		accessorKey: "status",
 		header: "Status / Action",
 		enableHiding: false,
 		cell: ({ row }) => {
 			return (
 				<div className="font-inter capitalize">
 					<p className="font-medium">{row.original.status}</p>
-					<a
-						href="#"
-						className="text-[#008000]"
-					>
-						Download receipt
-					</a>
+					<span className="text-[#008000]">Download receipt</span>
 				</div>
 			);
 		},
 	},
 ];
 
+type TransactionStatus = (typeof TRANSACTION_STATUS_FILTERS)[number];
+
 export function TransactionsTable() {
-	const [pageParams] = React.useState({
+	const [pagination, setPagination] = React.useState({
 		pageIndex: 0,
 		pageSize: PAGE_SIZE,
 	});
 
-	const { data: transactions, isFetching } = useQuery({
-		queryKey: ["transactions", pageParams],
+	const { data, isFetching } = useQuery({
+		queryKey: [
+			"transactions",
+			{
+				pageIndex: pagination.pageIndex + 1,
+				pageSize: pagination.pageSize,
+			},
+		],
 		queryFn: () =>
 			getAllTransactions({
-				page: pageParams.pageIndex,
-				size: pageParams.pageSize,
+				page: pagination.pageIndex + 1,
+				size: pagination.pageSize,
 			}),
 		staleTime: 1000 * 60 * 5,
 		placeholderData: keepPreviousData,
 	});
 
-	const [data] = React.useState(() => transactions ?? []);
-
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[]
 	);
-	const [columnVisibility, setColumnVisibility] =
-		React.useState<VisibilityState>({});
-	const [rowSelection, setRowSelection] = React.useState({});
 
 	const table = useReactTable({
-		data,
+		data: data?.data ?? [],
 		columns,
-		onColumnFiltersChange: setColumnFilters,
-		getCoreRowModel: getCoreRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
-		getSortedRowModel: getSortedRowModel(),
-		getFilteredRowModel: getFilteredRowModel(),
-		onColumnVisibilityChange: setColumnVisibility,
-		onRowSelectionChange: setRowSelection,
 		state: {
+			pagination,
 			columnFilters,
-			columnVisibility,
-			rowSelection,
 		},
+		getRowId: (row) => row.id.toString(),
+		onPaginationChange: setPagination,
+		getCoreRowModel: getCoreRowModel(),
+		getFilteredRowModel: getFilteredRowModel(),
+		getFacetedRowModel: getFacetedRowModel(),
+		getFacetedUniqueValues: getFacetedUniqueValues(),
+		onColumnFiltersChange: setColumnFilters,
+		manualPagination: true,
+		pageCount: data?.metadata.totalPages ?? -1,
 	});
 
+	const getActiveFilter =
+		(table.getColumn("status")?.getFilterValue() as TransactionStatus) ?? "ALL";
+
+	const handleFilterChange = (filter: TransactionStatus) => {
+		if (filter === "ALL") {
+			table.getColumn("status")?.setFilterValue(undefined);
+		} else {
+			table.getColumn("status")?.setFilterValue(filter);
+		}
+	};
+
 	return (
-		<div className="w-full font-inter border-t border-t-[#21241D] border border-[#EAECF0] shadow-[0px_1px_3px_0px_#1018281A]">
+		<div className="w-full font-inter border-t border-t-[#21241D] border border-[#EAECF0] shadow-[0px_1px_3px_0px_#1018281A] pb-5">
 			{/* <div className="py-5 px-6 border-b border-[#EAECF0]">
 				<h3 className="text-[#101828] text-2xl font-semibold">
 					Latest Transactions
 				</h3>
 			</div> */}
 			<div className="flex items-center py-3 px-4">
-				<div className="flex rounded-xl border border-[#D0D5DD] overflow-hidden">
-					<Button className="rounded-none border-0 h-10">In progress</Button>
-					<Button
-						variant="outline"
-						className="rounded-none border-0 h-10"
-					>
-						All
-					</Button>
-				</div>
+				<TableStatusFilter
+					filters={TRANSACTION_STATUS_FILTERS}
+					activeFilter={getActiveFilter}
+					onFilterChange={handleFilterChange}
+				/>
 				<div className="max-w-sm flex items-center px-3.5 py-2.5 ml-auto border border-[#D0D5DD] rounded-xl">
 					<Search
 						stroke="#667085"
@@ -252,30 +262,7 @@ export function TransactionsTable() {
 					</TableBody>
 				</Table>
 			</div>
-			<div className="flex items-center justify-end space-x-2 p-2 px-3">
-				<div className="text-muted-foreground flex-1 text-sm">
-					{table.getFilteredSelectedRowModel().rows.length} of{" "}
-					{table.getFilteredRowModel().rows.length} row(s) selected.
-				</div>
-				<div className="space-x-2">
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => table.previousPage()}
-						disabled={!table.getCanPreviousPage()}
-					>
-						Previous
-					</Button>
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => table.nextPage()}
-						disabled={!table.getCanNextPage()}
-					>
-						Next
-					</Button>
-				</div>
-			</div>
+			<PaginationControls table={table} />
 		</div>
 	);
 }

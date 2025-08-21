@@ -11,30 +11,49 @@ export async function getUserInfo() {
 	}
 }
 
+export type TransactionsResponse = {
+	status: boolean;
+	data: ITransaction[];
+	metadata: {
+		page: number;
+		size: number;
+		totalItems: number;
+		totalPages: number;
+	};
+};
+
 export async function getAllTransactions(pageParams: PageParams) {
 	try {
-		const res = await apiClient.get<IResponse<ITransaction[]>>(
-			`/transaction/user`,
-			{
-				params: {
-					...pageParams,
-				},
-			}
-		);
-		return res.data.data;
+		const res = await apiClient.get<TransactionsResponse>(`/transaction/user`, {
+			params: {
+				...pageParams,
+			},
+		});
+		return res.data;
 	} catch (error) {
 		throw error as AxiosError;
 	}
 }
 
+type OrdersResponse = {
+	status: boolean;
+	data: IOrder[];
+	metadata: {
+		page: number;
+		size: number;
+		totalItems: number;
+		totalPages: number;
+	};
+};
+
 export async function getAllOrders(pageParams: PageParams) {
 	try {
-		const res = await apiClient.get<IResponse<IOrder[]>>(`/order`, {
+		const res = await apiClient.get<OrdersResponse>(`/order`, {
 			params: {
 				...pageParams,
 			},
 		});
-		return res.data.data;
+		return res.data;
 	} catch (error) {
 		throw error as AxiosError;
 	}

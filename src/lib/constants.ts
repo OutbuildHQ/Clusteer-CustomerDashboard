@@ -32,3 +32,19 @@ export const WALLET_CURRENCY_ICONS: Record<WalletCurrency, string> = {
 	ETH: "/assets/icons/ethereum.svg",
 	BSC: "/assets/icons/binance-smart-chain.svg",
 };
+
+export const TRANSACTION_STATUS_FILTERS = [
+	"ALL",
+	"SUCCESS",
+	"FAILED",
+	"PENDING",
+] as const;
+
+export const ORDER_STATUS_FILTERS = [
+	"ALL",
+	"CREATED",
+	"TREATING",
+	"CANCELLED",
+	"SETTLED",
+	"FAILED",
+] as const;

@@ -20,7 +20,12 @@ interface Props {
 	withoutText?: boolean;
 }
 
-export function CopyButton({ className, value, icon, withoutText }: Props) {
+export function CopyButton({
+	className,
+	value,
+	icon,
+	withoutText = false,
+}: Props) {
 	return (
 		<Button
 			type="button"

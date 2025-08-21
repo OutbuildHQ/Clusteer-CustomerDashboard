@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
 				// httpOnly: true,
 				secure: process.env.NODE_ENV === "production",
 				sameSite: "strict",
-				maxAge: 3600, // One hour
+				maxAge: process.env.NODE_ENV === "production" ? 3600 : 10800, // One hour on Prod, 3 hours on dev
 				path: "/",
 			});
 		}
